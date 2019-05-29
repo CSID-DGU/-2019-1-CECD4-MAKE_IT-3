@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".DifficultyActivity" />
-        <activity android:name=".InputDataActivity"></activity>
+        <activity android:name=".InputDataActivity" />
+        <activity android:name=".GameActivity" />
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>
