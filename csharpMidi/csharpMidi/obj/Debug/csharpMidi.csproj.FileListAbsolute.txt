@@ -1,0 +1,6 @@
+C:\Users\94and\Documents\Visual Studio 2015\Projects\csharpMidi\csharpMidi\bin\Debug\csharpMidi.exe.config
+C:\Users\94and\Documents\Visual Studio 2015\Projects\csharpMidi\csharpMidi\bin\Debug\csharpMidi.exe
+C:\Users\94and\Documents\Visual Studio 2015\Projects\csharpMidi\csharpMidi\bin\Debug\csharpMidi.pdb
+C:\Users\94and\Documents\Visual Studio 2015\Projects\csharpMidi\csharpMidi\obj\Debug\csharpMidi.csprojResolveAssemblyReference.cache
+C:\Users\94and\Documents\Visual Studio 2015\Projects\csharpMidi\csharpMidi\obj\Debug\csharpMidi.exe
+C:\Users\94and\Documents\Visual Studio 2015\Projects\csharpMidi\csharpMidi\obj\Debug\csharpMidi.pdb
