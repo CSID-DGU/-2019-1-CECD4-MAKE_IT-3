@@ -2,7 +2,9 @@ package com.example.sjl95.ai_drum.models;
 
 import java.io.Serializable;
 
-public class Difficulty implements Serializable {
+import sma.rhythmtapper.framework.Music;
+
+public class Difficulty implements Serializable{
 
     public static final String EASY_TAG = "easy";
     public static final String MED_TAG = "medium";

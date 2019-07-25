@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import com.example.sjl95.ai_drum.helpers.BallDataAdapter;
-import com.example.sjl95.ai_drum.models.BallData;
+import sma.rhythmtapper.helpers.BallDataAdapter;
+import sma.rhythmtapper.models.BallData;
 
 public class AboutActivity extends Activity {
 

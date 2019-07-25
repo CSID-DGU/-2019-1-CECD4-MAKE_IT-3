@@ -11,9 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sjl95.ai_drum.R;
-import com.example.sjl95.ai_drum.models.BallData;
+import sma.rhythmtapper.R;
+import sma.rhythmtapper.models.BallData;
 
+/**
+ * Created by andil on 26.01.2017.
+ */
 
 public class BallDataAdapter extends ArrayAdapter<BallData> {
 

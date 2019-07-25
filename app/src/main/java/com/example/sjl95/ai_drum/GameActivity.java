@@ -1,12 +1,9 @@
 package com.example.sjl95.ai_drum;
 
-import android.os.Bundle;
-import android.util.Log;
-
-import com.example.sjl95.ai_drum.framework.Impl.RTGame;
-import com.example.sjl95.ai_drum.framework.Screen;
-import com.example.sjl95.ai_drum.game.LoadingScreen;
-import com.example.sjl95.ai_drum.models.Difficulty;
+import sma.rhythmtapper.framework.Impl.RTGame;
+import sma.rhythmtapper.framework.Screen;
+import sma.rhythmtapper.game.LoadingScreen;
+import sma.rhythmtapper.models.Difficulty;
 
 public class GameActivity extends RTGame {
     private Difficulty _diff;
