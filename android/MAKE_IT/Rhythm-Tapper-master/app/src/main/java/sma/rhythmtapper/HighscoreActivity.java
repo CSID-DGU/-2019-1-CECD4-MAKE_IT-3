@@ -1,12 +1,21 @@
 package sma.rhythmtapper;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.TextView;
 
 import sma.rhythmtapper.models.Difficulty;
+import sma.rhythmtapper.models.PadInfo;
+
+
+
 
 public class HighscoreActivity extends Activity {
 
@@ -17,15 +26,38 @@ public class HighscoreActivity extends Activity {
     private TextView _medTxtView;
     private TextView _hardTxtView;
 
+    private TextView testText;
+
+    private PadInfo padTest;
+    private String testString;
+
+
+    public PadInfo getReceivedPadInfo(){
+        return ((MainActivity) MainActivity.testmContext).getPadInformation();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscore);
         //_highscoreView = (ListView)this.findViewById(R.id.highscore_list_view);
 
+        //*from cj
+        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter("DrumHitNumber"));
+        //from cj
+
         _easyTxtView = (TextView)this.findViewById(R.id.highscore_txt_score_easy);
         _medTxtView = (TextView)this.findViewById(R.id.highscore_txt_score_medium);
         _hardTxtView = (TextView)this.findViewById(R.id.highscore_txt_score_hard);
+
+        //from cj
+        testText = (TextView)this.findViewById(R.id.testTextView);
+        padTest = getReceivedPadInfo();
+        testString = padTest.getPadNumber();
+        //testText.setText(testString);
+        //from cj
+
 
         // load highscores
         _prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -40,4 +72,21 @@ public class HighscoreActivity extends Activity {
 
 
     }
+
+    //*from cj
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String data1 = intent.getStringExtra("DrumPadNumber");
+            testText.setText(data1);
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+    }
+    //from cj
 }

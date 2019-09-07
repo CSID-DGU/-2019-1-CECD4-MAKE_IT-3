@@ -1,9 +1,8 @@
 package sma.rhythmtapper.framework.Impl;
 import java.util.List;
 
-        import android.view.View.OnTouchListener;
-
-        import sma.rhythmtapper.framework.Input;
+import android.view.View.OnTouchListener;
+import sma.rhythmtapper.framework.Input;
 
 public interface TouchHandler extends OnTouchListener {
     public boolean isTouchDown(int pointer);

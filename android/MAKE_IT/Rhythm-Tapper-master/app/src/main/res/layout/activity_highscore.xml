@@ -12,6 +12,12 @@
     tools:context="sma.rhythmtapper.HighscoreActivity">
 
 
+    <TextView
+        android:id="@+id/testTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
     <TableLayout
         android:stretchColumns="0,1,2"
         android:layout_width="match_parent"

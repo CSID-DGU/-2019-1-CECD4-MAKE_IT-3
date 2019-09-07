@@ -1,30 +1,41 @@
 package sma.rhythmtapper.framework.Impl;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Window;
 import android.view.WindowManager;
 
 import sma.rhythmtapper.framework.Audio;
+import sma.rhythmtapper.framework.DrumHitInput;
 import sma.rhythmtapper.framework.FileIO;
 import sma.rhythmtapper.framework.Game;
 import sma.rhythmtapper.framework.Graphics;
 import sma.rhythmtapper.framework.Input;
 import sma.rhythmtapper.framework.Screen;
 
+//from cj
+//broadcastReceiver추가
+//from cj
 public class RTGame extends Activity implements Game {
     RTFastRenderView renderView;
     Graphics graphics;
     Audio audio;
     Input input;
+
+    //from cj
+    DrumHitInput drumHitInput;
+    public String drumPadNumber;
+    //from cj
+
     FileIO fileIO;
     Screen screen;
     PowerManager.WakeLock wakeLock;
@@ -41,6 +52,10 @@ public class RTGame extends Activity implements Game {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //*from cj
+        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter("DrumHitNumber"));
+        //from cj
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -62,6 +77,11 @@ public class RTGame extends Activity implements Game {
         fileIO = new RTFileIO(this);
         audio = new RTAudio(this);
         input = new RTInput(this, renderView, scaleX, scaleY);
+
+        //from cj
+        drumHitInput = new RTDrumHitInput();
+        //from cj
+
         screen = getInitScreen();
         setContentView(renderView);
 
@@ -88,6 +108,10 @@ public class RTGame extends Activity implements Game {
             screen.dispose();
     }
 
+    @Override
+    public DrumHitInput getDrumHitInput(){
+        return drumHitInput;
+    }
     @Override
     public Input getInput() {
         return input;
@@ -134,4 +158,20 @@ public class RTGame extends Activity implements Game {
     public Screen getInitScreen() {
         return null;
     }
+
+    //*from cj
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            drumPadNumber = intent.getStringExtra("DrumPadNumber");
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+    }
+    //from cj
 }

@@ -1,30 +1,39 @@
 package sma.rhythmtapper.game;
+//from cj
+
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Vibrator;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.os.Vibrator;
-import android.util.Log;
-
 import sma.rhythmtapper.MainActivity;
 import sma.rhythmtapper.framework.FileIO;
 import sma.rhythmtapper.framework.Game;
 import sma.rhythmtapper.framework.Graphics;
-import sma.rhythmtapper.framework.Input;
+import sma.rhythmtapper.framework.Input.TouchEvent;
 import sma.rhythmtapper.framework.Music;
 import sma.rhythmtapper.framework.Screen;
-import sma.rhythmtapper.framework.Input.TouchEvent;
 import sma.rhythmtapper.game.models.Ball;
 import sma.rhythmtapper.models.Difficulty;
+import sma.rhythmtapper.models.PadInfo;
+
+//from cj
+//from cj
+//from cj
+
 
 public class GameScreen extends Screen {
+    //from cj
+   // PadInfo receivedPadInfo;
+    public static String globalDrumPadNumber = "0";
+    //from cj
+
     private static final String TAG = "GameScreenTag";
     enum GameState {
         Ready, Running, Paused, GameOver
@@ -53,18 +62,14 @@ public class GameScreen extends Screen {
 
     // balls
     private List<Ball> _ballsLeft;
-//    private List<Ball> _ballsMiddle;
+    //private List<Ball> _ballsMiddle;
     private List<Ball> _ballsMiddleLeft;
     private List<Ball> _ballsMiddleRight;
     private List<Ball> _ballsRight;
 
     // lane miss indicators
-//    private int _laneHitAlphaLeft;
-//    private int _laneHitAlphaMiddle;
-//    private int _laneHitAlphaRight;
     private int _laneHitAlphaLeft;
-    private int _laneHitAlphaMiddleLeft;
-    private int _laneHitAlphaMiddleRight;
+    private int _laneHitAlphaMiddle;
     private int _laneHitAlphaRight;
 
     // difficulty params
@@ -101,6 +106,7 @@ public class GameScreen extends Screen {
     private static final int EXPLOSION_TOP = 600;
     private static final int EXPLOSION_TIME = 150;
 
+    //from cj  Ready -> Running
     private GameState state = GameState.Ready;
 
     GameScreen(Game game, Difficulty difficulty) {
@@ -131,8 +137,7 @@ public class GameScreen extends Screen {
         _explosionTicker = 0;
         _lifes = 10;
         _laneHitAlphaLeft = 0;
-        _laneHitAlphaMiddleLeft = 0;
-        _laneHitAlphaMiddleRight = 0;
+        _laneHitAlphaMiddle = 0;
         _laneHitAlphaRight = 0;
         _currentTrack = Assets.musicTrack;
         _isEnding = false;
@@ -152,8 +157,25 @@ public class GameScreen extends Screen {
         _paintGameover.setColor(Color.BLACK);
     }
 
+    //from cj   same with the code below
+    /*
     @Override
-    public void update(float deltaTime) {
+    public void update(float deltaTime){
+        List<DrumHitEvent> drumHitEvents = game.getDrumHitInput().getDrumHitEvent();
+        if(state == GameState.Ready)
+            updateReady(drumHitEvents);
+        if (state == GameState.Running)
+            updateRunning(drumHitEvents, deltaTime);
+        if (state == GameState.Paused)
+            updatePaused(drumHitEvents);
+        if (state == GameState.GameOver)
+            updateGameOver(drumHitEvents);
+    }
+    */
+    //from cj
+
+    @Override
+    public void update(float deltaTime) {///////////////////////////////////////////////////////////////////////
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 
         if (state == GameState.Ready)
@@ -166,7 +188,21 @@ public class GameScreen extends Screen {
             updateGameOver(touchEvents);
     }
 
-    private void updateReady(List<TouchEvent> touchEvents) {
+    //from cj
+    /*
+    private void updateReady(List<DrumHitEvent> drumHitEvents){
+        if (drumHitEvents.size() > 0) {
+            state = GameState.Running;
+            drumHitEvents.clear();
+            _currentTrack.setLooping(false);
+            _currentTrack.setVolume(0.25f);
+            _currentTrack.play();
+        }
+    }*/
+    //from cj
+
+
+    private void updateReady(List<TouchEvent> touchEvents) {////////////////////////////////////////////////////
         if (touchEvents.size() > 0) {
             state = GameState.Running;
             touchEvents.clear();
@@ -176,7 +212,22 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {
+    //from cj
+    /*
+    private void updateRunning(List<DrumHitEvent> drumHitEvents, float deltaTime) {/////////////////////////////////////////////////
+        // 1. All touch input is handled here:
+        handleTouchEvents(drumHitEvents);
+
+        // 2. Check miscellaneous events like death:
+        checkDeath();
+        checkEnd();
+
+        // 3. Individual update() methods.
+        updateVariables(deltaTime);
+    }*/
+    //from cj
+
+    private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {/////////////////////////////////////////////////
         // 1. All touch input is handled here:
         handleTouchEvents(touchEvents);
 
@@ -241,7 +292,45 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void handleTouchEvents(List<TouchEvent> touchEvents) {
+
+    //from cj
+    /*
+    private void handleTouchEvents(List<DrumHitEvent> drumHitEvents) {///////////////////////////////////////////////////////
+        int len = drumHitEvents.size();
+        for (int i = 0; i < len; i++) {
+            DrumHitEvent event = drumHitEvents.get(i);
+
+            if(event.DrumHitNumber.length() < 0) {
+                if (event.DrumHitNumber == "1") {
+                    if (!hitLane(_ballsLeft)) {
+                        _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
+                    }
+                } else if (event.DrumHitNumber == "2") {
+                    if (!hitLane(_ballsMiddleLeft)) {
+                        _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
+                    }
+                } else if (event.DrumHitNumber == "3") {
+                    if (!hitLane(_ballsMiddleRight)) {
+                        _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
+                    }
+                } else if (event.DrumHitNumber == "4") {
+                    if (!hitLane(_ballsRight)) {
+                        _laneHitAlphaRight = MISS_FLASH_INITIAL_ALPHA;
+                    }
+                }
+            }
+            else{
+                drumHitEvents.clear();
+                pause();
+                break;
+            }
+        }
+    }*/
+
+    //from cj
+
+
+    private void handleTouchEvents(List<TouchEvent> touchEvents) {///////////////////////////////////////////////////////
         int len = touchEvents.size();
 
         for (int i = 0; i < len; i++) {
@@ -259,13 +348,13 @@ public class GameScreen extends Screen {
                     else if (event.x < _gameWidth / 4 * 2) {
                         if (!hitLane(_ballsMiddleLeft))
                         {
-                            _laneHitAlphaMiddleLeft = MISS_FLASH_INITIAL_ALPHA;
+                            _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
                         }
                     }
                     else if (event.x < _gameWidth / 4 * 3) {
                         if (!hitLane(_ballsMiddleRight))
                         {
-                            _laneHitAlphaMiddleRight = MISS_FLASH_INITIAL_ALPHA;
+                            _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
                         }
                     }
                     else {
@@ -315,10 +404,10 @@ public class GameScreen extends Screen {
 //            _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
 //        }
         if (removeMissed(_ballsMiddleLeft.iterator())) {
-            _laneHitAlphaMiddleLeft = MISS_FLASH_INITIAL_ALPHA;
+            _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
         }
         if (removeMissed(_ballsMiddleRight.iterator())) {
-            _laneHitAlphaMiddleRight = MISS_FLASH_INITIAL_ALPHA;
+            _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
         }
 
         if (removeMissed(_ballsRight.iterator())) {
@@ -332,8 +421,7 @@ public class GameScreen extends Screen {
 
         // decrease miss flash intensities
         _laneHitAlphaLeft -= Math.min(_laneHitAlphaLeft, 10);
-        _laneHitAlphaMiddleLeft -= Math.min(_laneHitAlphaMiddleLeft, 10);
-        _laneHitAlphaMiddleRight -= Math.min(_laneHitAlphaMiddleRight, 10);
+        _laneHitAlphaMiddle -= Math.min(_laneHitAlphaMiddle, 10);
         _laneHitAlphaRight -= Math.min(_laneHitAlphaRight, 10);
 
         // atom explosion ticker
@@ -373,9 +461,17 @@ public class GameScreen extends Screen {
         }
         return false;
     }
+    //  get data from midilog
+
+    //from cj
+
+    public PadInfo getReceivedPadInfo(){
+        return ((MainActivity) MainActivity.testmContext).getPadInformation();
+    }
+    //from cj
 
     // handles a TouchEvent on a certain lane
-    private boolean hitLane(List<Ball> balls) {
+    private boolean hitLane(List<Ball> balls) {////////////////////////////////////////////////////////////////////////
         Iterator<Ball> iter = balls.iterator();
         Ball lowestBall = null;
         while (iter.hasNext()) {
@@ -385,7 +481,12 @@ public class GameScreen extends Screen {
             }
         }
 
-        if (lowestBall != null && lowestBall.y > HITBOX_CENTER - HITBOX_HEIGHT / 2) {
+        //from cj
+        //receivedPadInfo = getReceivedPadInfo();
+        if (lowestBall != null && lowestBall.y > HITBOX_CENTER - HITBOX_HEIGHT / 2 ) {
+            //여기를 변경해야함.
+        //from cj
+
             balls.remove(lowestBall);
             onHit(lowestBall);
             return lowestBall.type != Ball.BallType.Skull;
@@ -478,11 +579,11 @@ public class GameScreen extends Screen {
         spawnBall(_ballsLeft, randFloat, ballX, ballY);
 
         randFloat = _rand.nextFloat();
-        ballX = _gameWidth / 8*3;
+        ballX = _gameWidth / 3;
         spawnBall(_ballsMiddleLeft, randFloat, ballX, ballY);
 
         randFloat = _rand.nextFloat();
-        ballX = _gameWidth/8*5;
+        ballX = _gameWidth-_gameWidth / 3;
         spawnBall(_ballsMiddleRight, randFloat, ballX, ballY);
 
         randFloat = _rand.nextFloat();
@@ -507,7 +608,27 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void updatePaused(List<TouchEvent> touchEvents) {
+
+    //from cj
+    /*
+    private void updatePaused(List<DrumHitEvent> drumHitEvents) {///////////////////////////////////////////////////////////////////////////////
+        if (_currentTrack.isPlaying()) {
+            _currentTrack.pause();
+        }
+
+        int len = drumHitEvents.size();
+        for (int i = 0; i < len; i++) {
+            DrumHitEvent event = drumHitEvents.get(i);
+            if(event.DrumHitNumber == "3"){ //멈추는 부분.
+                resume();
+                return;
+            }
+        }
+    }*/
+    //from cj
+
+
+    private void updatePaused(List<TouchEvent> touchEvents) {///////////////////////////////////////////////////////////////////////////////
         if (_currentTrack.isPlaying()) {
             _currentTrack.pause();
         }
@@ -522,7 +643,28 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void updateGameOver(List<TouchEvent> touchEvents) {
+    //from cj
+    /*
+    private void updateGameOver(List<DrumHitEvent> drumHitEvents) {////////////////////////////////////////////////////////////////////////
+        if (!_currentTrack.isStopped()) {
+            _currentTrack.stop();
+        }
+
+        int len = drumHitEvents.size();
+        for (int i = 0; i < len; i++) {
+            DrumHitEvent event = drumHitEvents.get(i);
+            if(event.DrumHitNumber == "1"){
+                game.goToActivity(MainActivity.class);
+                return;
+            }
+            else if(event.DrumHitNumber == "2"){
+                game.setScreen(new LoadingScreen(game, _difficulty));
+            }
+        }
+    }*/
+    //from cj
+
+    private void updateGameOver(List<TouchEvent> touchEvents) {////////////////////////////////////////////////////////////////////////
         if (!_currentTrack.isStopped()) {
             _currentTrack.stop();
         }
@@ -541,7 +683,6 @@ public class GameScreen extends Screen {
                 }
             }
         }
-
     }
 
     @Override
@@ -553,18 +694,13 @@ public class GameScreen extends Screen {
         // Example:
         g.drawImage(Assets.background, 0, 0);
 
-//        g.drawRect(0 , 0, _gameWidth / 3 + 1, _gameHeight, Color.argb(_laneHitAlphaLeft, 255, 0, 0));
-//        g.drawRect(_gameWidth / 3    , 0, _gameWidth / 3 + 1, _gameHeight, Color.argb(_laneHitAlphaMiddle, 255, 0, 0));
-//        g.drawRect(_gameWidth / 3 * 2, 0, _gameWidth / 3 + 1, _gameHeight, Color.argb(_laneHitAlphaRight, 255, 0, 0));
-        g.drawRect(0, 0, _gameWidth / 4+1, _gameHeight, Color.argb(_laneHitAlphaLeft, 255, 0, 0));
-        g.drawRect(_gameWidth / 4, 0, _gameWidth / 4+1, _gameHeight, Color.argb(_laneHitAlphaMiddleLeft, 255, 0, 0));
-        g.drawRect(_gameWidth / 2, 0, _gameWidth / 4+1, _gameHeight, Color.argb(_laneHitAlphaMiddleRight, 255, 0, 0));
-        g.drawRect(_gameWidth / 4 * 3, 0, _gameWidth / 4+1, _gameHeight, Color.argb(_laneHitAlphaRight, 255, 0, 0));
+        g.drawRect(0 , 0, _gameWidth / 3 + 1, _gameHeight, Color.argb(_laneHitAlphaLeft, 255, 0, 0));
+        g.drawRect(_gameWidth / 3    , 0, _gameWidth / 3 + 1, _gameHeight, Color.argb(_laneHitAlphaMiddle, 255, 0, 0));
+        g.drawRect(_gameWidth / 3 * 2, 0, _gameWidth / 3 + 1, _gameHeight, Color.argb(_laneHitAlphaRight, 255, 0, 0));
 
         for (Ball b: _ballsLeft) {
             paintBall(g, b);
         }
-
 //        for (Ball b: _ballsMiddle) {
 //            paintBall(g, b);
 //        }
@@ -635,6 +771,7 @@ public class GameScreen extends Screen {
         System.gc();
     }
 
+
     private void drawReadyUI() {
         Graphics g = game.getGraphics();
 
@@ -653,7 +790,8 @@ public class GameScreen extends Screen {
 
         String s = "Score: " + _score +
                 "   Multiplier: " + _multiplier * (_doubleMultiplierTicker > 0 ? 2 : 1) + "x" +
-                "   Lifes remaining: " + _lifes;
+                "   Lifes remaining: " + _lifes +
+                "   DrumPadNumber: "+ globalDrumPadNumber;
         g.drawString(s, 600, 80, _paintScore);
     }
 

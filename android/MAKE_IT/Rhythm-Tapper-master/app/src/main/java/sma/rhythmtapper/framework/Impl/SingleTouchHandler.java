@@ -11,6 +11,7 @@ import sma.rhythmtapper.framework.Input.TouchEvent;
 import sma.rhythmtapper.framework.Pool;
 import sma.rhythmtapper.framework.Pool.PoolObjectFactory;
 
+
 public class SingleTouchHandler implements TouchHandler {
     private boolean isTouched;
     private int touchX;

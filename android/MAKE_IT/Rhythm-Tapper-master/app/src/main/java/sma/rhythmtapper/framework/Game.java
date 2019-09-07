@@ -11,6 +11,10 @@ public interface Game {
 
     public Input getInput();
 
+    //from cj
+    public DrumHitInput getDrumHitInput();
+    //from cj
+
     public FileIO getFileIO();
 
     public Graphics getGraphics();

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RhythmTapper</string>
+    <string name="app_name">RhythmTapper_Hit</string>
     <string name="main_btn_start">Game Start</string>
     <string name="main_btn_highscore">Highscore</string>
     <string name="main_btn_difficulty">Highscore</string>
