@@ -185,6 +185,8 @@ public class GameScreen extends Screen {
         // 1. All touch input is handled here:
         handleTouchEvents(touchEvents);
 
+        //
+
         // 2. Check miscellaneous events like death:
         checkDeath();
         checkEnd();
@@ -246,13 +248,11 @@ public class GameScreen extends Screen {
         }
     }
 
-
-    private void handleTouchEvents(List<TouchEvent> touchEvents) {///////////////////////////////////////////////////////
+    private void handleTouchEvents(List<TouchEvent> touchEvents) {
         int len = touchEvents.size();
 
         for (int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
-
 
             if (event.type == TouchEvent.TOUCH_DOWN) {
                 if (event.y > 1500) {
