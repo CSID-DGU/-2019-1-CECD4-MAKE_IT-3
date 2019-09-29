@@ -1,2 +1,0 @@
-# 2019-1-CECD4-MAKE_IT-3
-aiDrum
