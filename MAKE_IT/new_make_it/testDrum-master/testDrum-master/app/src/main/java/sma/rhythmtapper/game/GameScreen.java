@@ -107,9 +107,17 @@ public class GameScreen extends Screen {
     //from cj  Ready -> Running
     private GameState state = GameState.Ready;
 
+    private boolean isPadNumChange = false;
+    private int prevPadNum = 1;
+    private int padNum = 1;
+
     GameScreen(Game game, Difficulty difficulty) {
         super(game);
         receivedGame = game;
+
+        //padNum
+        //prevPadNum = "1";
+        //padNum = "1";
 
         _difficulty = difficulty;
         // init difficulty parameters
@@ -181,11 +189,13 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {/////////////////////////////////////////////////
+    private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {////////////////////////////////////////////////
+        //padNum = game.getPadNumber();
+
         // 1. All touch input is handled here:
         handleTouchEvents(touchEvents);
-
-        //
+        //padNum
+        handleHitEvent();
 
         // 2. Check miscellaneous events like death:
         checkDeath();
@@ -207,8 +217,7 @@ public class GameScreen extends Screen {
             Ball b = iter.next();
             if (b.y > EXPLOSION_TOP) {
                 iter.remove();
-                _score += 10 * _multiplier
-                        * (_doubleMultiplierTicker > 0 ? 2 : 1);
+                _score += 10 * _multiplier * (_doubleMultiplierTicker > 0 ? 2 : 1);
             }
         }
     }
@@ -247,12 +256,56 @@ public class GameScreen extends Screen {
             editor.apply();
         }
     }
+    //padNum
+    private void handleHitEvent(){
+        if(isPadNumChange){
+            int number = padNum;//acquire pad number
+            if(number == 1){//ballsLeft
+                if(!hitLane(_ballsLeft)){
+                    _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
+                    isPadNumChange = false;//여기서 prev boolean 바꾸기?
+                    prevPadNum = padNum;
+                }
 
-    private void handleTouchEvents(List<TouchEvent> touchEvents) {
+            }
+            else if (number == 2){//ballsmiddleleft
+                if(!hitLane(_ballsMiddleLeft)) {
+                    _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
+                    isPadNumChange = false;
+                    prevPadNum = padNum;
+                }
+            }
+            else if (number == 3){//ballsmiddleright
+                if(!hitLane(_ballsMiddleRight)){
+                    _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
+                    isPadNumChange = false;
+                    prevPadNum = padNum;
+                }
+
+            }
+            else if (number == 4){//ballsright
+                if(!hitLane(_ballsRight)){
+                    _laneHitAlphaRight = MISS_FLASH_INITIAL_ALPHA;
+                    isPadNumChange = false;
+                    prevPadNum = padNum;
+                }
+            }
+            else {
+
+            }
+        }
+        else{
+            padNum = Integer.parseInt(game.getPadNumber());
+            Log.d("asdf",String.valueOf(padNum));
+        }
+    }
+
+    private void handleTouchEvents(List<TouchEvent> touchEvents) {///////////////////////////////////////////////////////
         int len = touchEvents.size();
 
         for (int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
+
 
             if (event.type == TouchEvent.TOUCH_DOWN) {
                 if (event.y > 1500) {
@@ -301,7 +354,7 @@ public class GameScreen extends Screen {
         for (Ball b: _ballsLeft) {
             b.update((int) (_ballSpeed * deltatime));
         }
-    //변경부분
+        //변경부분
         for (Ball b: _ballsMiddleLeft) {
             b.update((int) (_ballSpeed * deltatime));
         }
@@ -361,6 +414,13 @@ public class GameScreen extends Screen {
             if (_endTicker <= 0) {
                 endGame();
             }
+        }
+
+        //padNumber
+        Log.d("asdfasdf","padNum"+padNum);
+        Log.d("asdfasdfasdf", "prevPadNum"+prevPadNum);
+        if (padNum!=prevPadNum){ //padNumber가 달라질때
+            isPadNumChange = true;
         }
     }
 
