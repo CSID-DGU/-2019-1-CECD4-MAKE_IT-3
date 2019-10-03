@@ -17,6 +17,7 @@ import sma.rhythmtapper.framework.FileIO;
 import sma.rhythmtapper.framework.Game;
 import sma.rhythmtapper.framework.Graphics;
 import sma.rhythmtapper.framework.Input.TouchEvent;
+import sma.rhythmtapper.framework.HitInput.HitEvent;
 import sma.rhythmtapper.framework.Music;
 import sma.rhythmtapper.framework.Screen;
 import sma.rhythmtapper.game.models.Ball;
@@ -32,11 +33,14 @@ public class GameScreen extends Screen {
         Ready, Running, Paused, GameOver
     }
 
+
+    public Game receivedGame;
+    public String padNumber = "0";
+    String tempString;
+
     public String getdrumPadNumber(){
         return receivedGame.getPadNumber();
     }
-    Game receivedGame;
-
     // game and device
     private int _gameHeight;
     private int _gameWidth;
@@ -107,13 +111,9 @@ public class GameScreen extends Screen {
     //from cj  Ready -> Running
     private GameState state = GameState.Ready;
 
-    private String padNum = "0";
-
     GameScreen(Game game, Difficulty difficulty) {
         super(game);
         receivedGame = game;
-
-        padNum = "0";
 
         _difficulty = difficulty;
         // init difficulty parameters
@@ -163,11 +163,16 @@ public class GameScreen extends Screen {
     @Override
     public void update(float deltaTime) {///////////////////////////////////////////////////////////////////////
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        padNumber = receivedGame.getPadNumber();
+       // List<HitEvent> hitEvents = game.getHitInput().getHitEvents();
 
         if (state == GameState.Ready)
             updateReady(touchEvents);
-        if (state == GameState.Running)
-            updateRunning(touchEvents, deltaTime);
+        if (state == GameState.Running) {
+            updateHitRunning(padNumber, deltaTime);
+            //updateHitRunning(hitEvents, deltaTime);
+            //updateRunning(touchEvents, deltaTime);
+        }
         if (state == GameState.Paused)
             updatePaused(touchEvents);
         if (state == GameState.GameOver)
@@ -184,14 +189,25 @@ public class GameScreen extends Screen {
             _currentTrack.play();
         }
     }
+    private void updateHitRunning(String padNumber, float deltaTime){
+        handleHitEvents(padNumber);
+        checkDeath();
+        checkEnd();
+        updateVariables(deltaTime);
+    }
+    private void updateHitRunning(List<HitEvent> hitEvents, float deltaTime){
+        // 1. All touch input is handled here:
+        handleHitEvents(hitEvents);
+        // 2. Check miscellaneous events like death:
+        checkDeath();  //나중에 확인..
+        checkEnd();
 
-    private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {////////////////////////////////////////////////
-        //padNum = game.getPadNumber();
-        //Log.d("pp", "padNum" + game.getPadNumber());
+        // 3. Individual update() methods.
+        updateVariables(deltaTime);
+    }
+    private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {/////////////////////////////////////////////////
         // 1. All touch input is handled here:
         handleTouchEvents(touchEvents);
-        //padNum
-        handleHitEvent();
 
         // 2. Check miscellaneous events like death:
         checkDeath();
@@ -204,7 +220,6 @@ public class GameScreen extends Screen {
     private void checkEnd() {
         if (_currentTrack.isStopped()) {
             _isEnding = true;
-            padNum = "0";
         }
     }
 
@@ -254,8 +269,74 @@ public class GameScreen extends Screen {
             editor.apply();
         }
     }
-    //padNum
 
+    private void handleHitEvents(String padNumber){
+            if (padNumber.equals("1")) {
+                if (!hitLane(_ballsLeft)) {
+                    // if no ball was hit
+                    _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
+                }
+            }
+            if (padNumber.equals("2")) {
+                if (!hitLane(_ballsMiddleLeft)) {
+                    // if no ball was hit
+                    _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
+                }
+            }
+            if (padNumber.equals("3")) {
+                if (!hitLane(_ballsMiddleRight)) {
+                    // if no ball was hit
+                    _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
+                }
+            }
+            if (padNumber.equals("4")) {
+                if (!hitLane(_ballsRight)) {
+                    // if no ball was hit
+                    _laneHitAlphaRight = MISS_FLASH_INITIAL_ALPHA;
+                }
+            }
+            else {
+                receivedGame.setPadNumber("0");
+            }
+    }
+    private void handleHitEvents(List<HitEvent> hitEvents){
+        int len = hitEvents.size();
+        String padNumberString;
+        for (int i = 0; i < len; i++) {
+            HitEvent event = hitEvents.get(i);
+            padNumberString = event.getPadNumber();
+            tempString = padNumberString;
+            if (padNumberString=="1"){
+                if (!hitLane(_ballsLeft)) {
+                    // if no ball was hit
+                    _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
+                }
+            }
+            if (padNumberString.equals("2")) {
+                if (!hitLane(_ballsMiddleLeft)) {
+                    // if no ball was hit
+                    _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
+                }
+            }
+            if (padNumberString.equals("3")) {
+                if (!hitLane(_ballsMiddleRight)) {
+                    // if no ball was hit
+                    _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
+                }
+            }
+            if (padNumberString.equals("4")) {
+                if (!hitLane(_ballsRight)) {
+                    // if no ball was hit
+                    _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
+                }
+            }
+            else {
+                hitEvents.clear();
+                pause();
+                break;
+            }
+        }
+    }
     private void handleTouchEvents(List<TouchEvent> touchEvents) {///////////////////////////////////////////////////////
         int len = touchEvents.size();
 
@@ -308,7 +389,7 @@ public class GameScreen extends Screen {
         for (Ball b: _ballsLeft) {
             b.update((int) (_ballSpeed * deltatime));
         }
-        //변경부분
+    //변경부분
         for (Ball b: _ballsMiddleLeft) {
             b.update((int) (_ballSpeed * deltatime));
         }
@@ -369,16 +450,6 @@ public class GameScreen extends Screen {
                 endGame();
             }
         }
-
-        //padNumber
-        try{
-            if (padNum.equals("0") && game.getPadNumber() != null)
-                padNum = game.getPadNumber();
-        } catch(NullPointerException e){
-            padNum = "0";
-            game.setPadNumber("0");
-        }
-
     }
 
     // remove the balls from an iterator that have fallen through the hitbox
@@ -398,7 +469,6 @@ public class GameScreen extends Screen {
 
     // handles a TouchEvent on a certain lane
     private boolean hitLane(List<Ball> balls) {////////////////////////////////////////////////////////////////////////
-
         Iterator<Ball> iter = balls.iterator();
         Ball lowestBall = null;
         while (iter.hasNext()) {
@@ -657,10 +727,13 @@ public class GameScreen extends Screen {
 
         g.drawRect(0, 0, _gameWidth, 100, Color.BLACK);
         //Toast.makeText(getApplicationContext(), game.getPadNumber(), Toast.LENGTH_LONG).show();
+
+        padNumber = receivedGame.getPadNumber();
+
         String s = "Score: " + _score +
                 "   Multiplier: " + _multiplier * (_doubleMultiplierTicker > 0 ? 2 : 1) + "x" +
                 "   Lifes remaining: " + _lifes +
-                "   DrumPadNumber: "+ game.getPadNumber() + " " + padNum;
+                "   DrumPadNumber: "+ padNumber + " " + padNumber;
         g.drawString(s, 600, 80, _paintScore);
     }
 

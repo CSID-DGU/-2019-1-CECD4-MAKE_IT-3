@@ -19,6 +19,7 @@ import sma.rhythmtapper.framework.Audio;
 import sma.rhythmtapper.framework.FileIO;
 import sma.rhythmtapper.framework.Game;
 import sma.rhythmtapper.framework.Graphics;
+import sma.rhythmtapper.framework.HitInput;
 import sma.rhythmtapper.framework.Input;
 import sma.rhythmtapper.framework.Screen;
 
@@ -32,7 +33,8 @@ public class RTGame extends Activity implements Game {
     Input input;
 
     //from cj
-    public String drumPadNumber;
+    HitInput hitInput;
+    private String drumPadNumber = "0";
     //from cj
 
     FileIO fileIO;
@@ -76,12 +78,14 @@ public class RTGame extends Activity implements Game {
         fileIO = new RTFileIO(this);
         audio = new RTAudio(this);
         input = new RTInput(this, renderView, scaleX, scaleY);
+        hitInput = new RTHitInput(this);
 
         screen = getInitScreen();
         setContentView(renderView);
 
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "RhythmTapper");
+        //wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "RhythmTapper");
+        wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "AppName:RhythmTapper");
     }
 
     @Override
@@ -108,6 +112,9 @@ public class RTGame extends Activity implements Game {
     public Input getInput() {
         return input;
     }
+
+    @Override
+    public HitInput getHitInput(){return hitInput;}
 
     @Override
     public FileIO getFileIO() {
@@ -164,7 +171,6 @@ public class RTGame extends Activity implements Game {
         @Override
         public void onReceive(Context context, Intent intent) {
             drumPadNumber= intent.getStringExtra("DrumPadNumber");
-            Toast.makeText(getApplicationContext(), drumPadNumber, Toast.LENGTH_LONG).show();
         }
     };
 
