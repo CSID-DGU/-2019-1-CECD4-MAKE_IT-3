@@ -91,8 +91,6 @@ public class GameScreen extends Screen {
     // miss zone right above the hitbox (it still counts as a miss)
     private static final int MISS_ZONE_HEIGHT = 150;
     private static final int MISS_FLASH_INITIAL_ALPHA = 240;
-//    private static final int DOUBLE_MULTIPLIER_TIME = 600;
-
     //from cj  Ready -> Running
     private GameState state = GameState.Ready;
 
@@ -148,13 +146,12 @@ public class GameScreen extends Screen {
     public void update(float deltaTime) {
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
         padNumber = receivedGame.getPadNumber();
-        // List<HitEvent> hitEvents = game.getHitInput().getHitEvents();
 
-        if (state == GameState.Ready)
+        if (state == GameState.Ready){
             updateReady(touchEvents);
+        }
         if (state == GameState.Running) {
             updateHitRunning(padNumber, deltaTime);
-            //updateHitRunning(hitEvents, deltaTime);
             updateRunning(touchEvents, deltaTime);
         }
         if (state == GameState.Paused)
@@ -164,7 +161,8 @@ public class GameScreen extends Screen {
     }
 
     private void updateReady(List<TouchEvent> touchEvents) {
-        if (touchEvents.size() > 0) {
+        if (touchEvents.size() > 0||receivedGame.getPadNumber().equals("1")||receivedGame.getPadNumber().equals("2")||receivedGame.getPadNumber().equals("3")||receivedGame.getPadNumber().equals("4")){
+            receivedGame.setPadNumber("0");
             state = GameState.Running;
             touchEvents.clear();
             _currentTrack.setLooping(false);
@@ -180,7 +178,7 @@ public class GameScreen extends Screen {
         updateVariables(deltaTime);
     }
 
-    private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {/////////////////////////////////////////////////
+    private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {
         // 1. All touch input is handled here:
         handleTouchEvents(touchEvents);
 
@@ -261,7 +259,7 @@ public class GameScreen extends Screen {
         receivedGame.setPadNumber("0");
     }
 
-    private void handleTouchEvents(List<TouchEvent> touchEvents) {///////////////////////////////////////////////////////
+    private void handleTouchEvents(List<TouchEvent> touchEvents) {
         int len = touchEvents.size();
 
         for (int i = 0; i < len; i++) {
@@ -348,15 +346,6 @@ public class GameScreen extends Screen {
         _laneHitAlphaMiddleRight -= Math.min(_laneHitAlphaMiddleRight, 10);
         _laneHitAlphaRight -= Math.min(_laneHitAlphaRight, 10);
 
-        // atom explosion ticker
-//        if (_explosionTicker > 0) {
-//            explosion(_ballsLeft);
-////            explosion(_ballsMiddle);
-//            explosion(_ballsMiddleLeft);
-//            explosion(_ballsMiddleRight);
-//            explosion(_ballsRight);
-//        }
-
         // update tickers
         _doubleMultiplierTicker -= Math.min(1, _doubleMultiplierTicker);
         _explosionTicker -= Math.min(1, _explosionTicker);
@@ -385,9 +374,8 @@ public class GameScreen extends Screen {
         }
         return false;
     }
-
     // handles a TouchEvent on a certain lane
-    private boolean hitLane(List<Ball> balls) {////////////////////////////////////////////////////////////////////////
+    private boolean hitLane(List<Ball> balls) {
         Iterator<Ball> iter = balls.iterator();
         Ball lowestBall = null;
         while (iter.hasNext()) {
@@ -415,7 +403,7 @@ public class GameScreen extends Screen {
         _vibrator.vibrate(100);
         _streak = 0;
         _multiplier = 1;
-        //--_lifes;
+        //--_lifes;// for the test
         updateMultipliers();
     }
 
@@ -472,7 +460,7 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void updatePaused(List<TouchEvent> touchEvents) {///////////////////////////////////////////////////////////////////////////////
+    private void updatePaused(List<TouchEvent> touchEvents) {
         if (_currentTrack.isPlaying()) {
             _currentTrack.pause();
         }
@@ -487,7 +475,7 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void updateGameOver(List<TouchEvent> touchEvents) {////////////////////////////////////////////////////////////////////////
+    private void updateGameOver(List<TouchEvent> touchEvents) {
         if (!_currentTrack.isStopped()) {
             _currentTrack.stop();
         }
@@ -513,8 +501,6 @@ public class GameScreen extends Screen {
         Graphics g = game.getGraphics();
 
         // First draw the game elements.
-
-        // Example:
         g.drawImage(Assets.background, 0, 0);
 
         g.drawRect(0, 0, _gameWidth / 4 + 1, _gameHeight, Color.argb(_laneHitAlphaLeft, 255, 0, 0));
@@ -525,14 +511,9 @@ public class GameScreen extends Screen {
         for (Ball b : _ballsLeft) {
             paintBall(g, b);
         }
-//        for (Ball b: _ballsMiddle) {
-//            paintBall(g, b);
-//        }
-
         for (Ball b : _ballsMiddleLeft) {
             paintBall(g, b);
         }
-
         for (Ball b : _ballsMiddleRight) {
             paintBall(g, b);
         }
@@ -540,17 +521,6 @@ public class GameScreen extends Screen {
         for (Ball b : _ballsRight) {
             paintBall(g, b);
         }
-
-
-//        if (_explosionTicker > 0) {
-//            if (_rand.nextDouble() > 0.05) {
-//                g.drawImage(Assets.explosion, 0, 680);
-//            } else {
-//                g.drawImage(Assets.explosionBright, 0, 680);
-//            }
-//            g.drawARGB((int)((double)_explosionTicker/EXPLOSION_TIME * 255), 255, 255, 255);
-//        }
-
         // Secondly, draw the UI above the game elements.
         if (state == GameState.Ready)
             drawReadyUI();
@@ -570,17 +540,6 @@ public class GameScreen extends Screen {
         }
     }
 
-//    private void nullify() {
-//
-//        // Set all variables to null. You will be recreating them in the
-//        // constructor.
-//        _paintScore = null;
-//
-//        // Call garbage collector to clean up memory.
-//        System.gc();
-//    }
-
-
     private void drawReadyUI() {
         Graphics g = game.getGraphics();
 
@@ -594,16 +553,13 @@ public class GameScreen extends Screen {
         if (_doubleMultiplierTicker > 0) {
             g.drawImage(Assets.sirens, 0, 100);
         }
-
         g.drawRect(0, 0, _gameWidth, 100, Color.BLACK);
-        //Toast.makeText(getApplicationContext(), game.getPadNumber(), Toast.LENGTH_LONG).show();
 
         padNumber = receivedGame.getPadNumber();
 
         String s = "Score: " + _score +
-                "   Multiplier: " + _multiplier * (_doubleMultiplierTicker > 0 ? 2 : 1) + "x" +
                 "   Lifes remaining: " + _lifes +
-                "   DrumPadNumber: " + padNumber + " " + padNumber;
+                "   DrumPadNumber: " + padNumber;
         g.drawString(s, 600, 80, _paintScore);
     }
 
@@ -627,7 +583,6 @@ public class GameScreen extends Screen {
             state = GameState.Paused;
             _currentTrack.pause();
         }
-
     }
 
     @Override

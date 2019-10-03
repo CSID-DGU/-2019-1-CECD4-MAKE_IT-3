@@ -10,8 +10,6 @@ public class Difficulty implements Serializable{
     public static final String MED_TAG = "medium";
     public static final String HARD_TAG = "hard";
 
-
-
     private String _music;
     private float _spawnInterval;
     private int _ballSpeed;
