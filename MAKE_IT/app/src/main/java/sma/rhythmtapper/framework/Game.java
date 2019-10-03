@@ -11,6 +11,8 @@ public interface Game {
 
     public Input getInput();
 
+    public HitInput getHitInput();
+
     public FileIO getFileIO();
 
     public Graphics getGraphics();
