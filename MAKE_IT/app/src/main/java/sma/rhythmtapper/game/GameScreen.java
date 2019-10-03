@@ -71,7 +71,9 @@ public class GameScreen extends Screen {
 
     // lane miss indicators
     private int _laneHitAlphaLeft;
-    private int _laneHitAlphaMiddle;
+//    private int _laneHitAlphaMiddle;
+    private int _laneHitAlphaMiddleLeft;
+    private int _laneHitAlphaMiddleRight;
     private int _laneHitAlphaRight;
 
     // difficulty params
@@ -135,7 +137,8 @@ public class GameScreen extends Screen {
         _explosionTicker = 0;
         _lifes = 10;
         _laneHitAlphaLeft = 0;
-        _laneHitAlphaMiddle = 0;
+        _laneHitAlphaMiddleLeft=0;
+        _laneHitAlphaMiddleRight=0;
         _laneHitAlphaRight = 0;
         _currentTrack = Assets.musicTrack;
         _isEnding = false;
@@ -275,13 +278,13 @@ public class GameScreen extends Screen {
             if (padNumber.equals("2")) {
                 if (!hitLane(_ballsMiddleLeft)) {
                     // if no ball was hit
-                    _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
+                    _laneHitAlphaMiddleLeft = MISS_FLASH_INITIAL_ALPHA;
                 }
             }
             if (padNumber.equals("3")) {
                 if (!hitLane(_ballsMiddleRight)) {
                     // if no ball was hit
-                    _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
+                    _laneHitAlphaMiddleRight = MISS_FLASH_INITIAL_ALPHA;
                 }
             }
             if (padNumber.equals("4")) {
@@ -342,13 +345,13 @@ public class GameScreen extends Screen {
                     else if (event.x < _gameWidth / 4 * 2) {
                         if (!hitLane(_ballsMiddleLeft))
                         {
-                            _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
+                            _laneHitAlphaMiddleLeft = MISS_FLASH_INITIAL_ALPHA;
                         }
                     }
                     else if (event.x < _gameWidth / 4 * 3) {
                         if (!hitLane(_ballsMiddleRight))
                         {
-                            _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
+                            _laneHitAlphaMiddleRight = MISS_FLASH_INITIAL_ALPHA;
                         }
                     }
                     else {
@@ -397,10 +400,10 @@ public class GameScreen extends Screen {
 //            _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
 //        }
         if (removeMissed(_ballsMiddleLeft.iterator())) {
-            _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
+            _laneHitAlphaMiddleLeft = MISS_FLASH_INITIAL_ALPHA;
         }
         if (removeMissed(_ballsMiddleRight.iterator())) {
-            _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
+            _laneHitAlphaMiddleRight = MISS_FLASH_INITIAL_ALPHA;
         }
 
         if (removeMissed(_ballsRight.iterator())) {
@@ -414,7 +417,8 @@ public class GameScreen extends Screen {
 
         // decrease miss flash intensities
         _laneHitAlphaLeft -= Math.min(_laneHitAlphaLeft, 10);
-        _laneHitAlphaMiddle -= Math.min(_laneHitAlphaMiddle, 10);
+        _laneHitAlphaMiddleLeft -= Math.min(_laneHitAlphaMiddleLeft, 10);
+        _laneHitAlphaMiddleRight -= Math.min(_laneHitAlphaMiddleRight, 10);
         _laneHitAlphaRight -= Math.min(_laneHitAlphaRight, 10);
 
         // atom explosion ticker
@@ -611,9 +615,10 @@ public class GameScreen extends Screen {
         // Example:
         g.drawImage(Assets.background, 0, 0);
 
-        g.drawRect(0 , 0, _gameWidth / 3 + 1, _gameHeight, Color.argb(_laneHitAlphaLeft, 255, 0, 0));
-        g.drawRect(_gameWidth / 3    , 0, _gameWidth / 3 + 1, _gameHeight, Color.argb(_laneHitAlphaMiddle, 255, 0, 0));
-        g.drawRect(_gameWidth / 3 * 2, 0, _gameWidth / 3 + 1, _gameHeight, Color.argb(_laneHitAlphaRight, 255, 0, 0));
+        g.drawRect(0 , 0, _gameWidth / 4 + 1, _gameHeight, Color.argb(_laneHitAlphaLeft, 255, 0, 0));
+        g.drawRect(_gameWidth / 4    , 0, _gameWidth / 4 + 1, _gameHeight, Color.argb(_laneHitAlphaMiddleLeft, 255, 0, 0));
+        g.drawRect(_gameWidth / 4*2    , 0, _gameWidth / 4 + 1, _gameHeight, Color.argb(_laneHitAlphaMiddleRight, 255, 0, 0));
+        g.drawRect(_gameWidth / 4 * 3, 0, _gameWidth / 4 + 1, _gameHeight, Color.argb(_laneHitAlphaRight, 255, 0, 0));
 
         for (Ball b: _ballsLeft) {
             paintBall(g, b);
@@ -659,21 +664,6 @@ public class GameScreen extends Screen {
         switch(b.type) {
             case Normal:
                 g.drawImage(Assets.ballNormal, b.x - 90, b.y - 90);
-                break;
-            case OneUp:
-                g.drawImage(Assets.ballOneUp, b.x - 90, b.y - 90);
-                break;
-            case Multiplier:
-                g.drawImage(Assets.ballMultiplier, b.x - 90, b.y - 90);
-                break;
-            case Speeder:
-                g.drawImage(Assets.ballSpeeder, b.x - 90, b.y - 90);
-                break;
-            case Bomb:
-                g.drawImage(Assets.ballBomb,  b.x - 90, b.y - 90);
-                break;
-            case Skull:
-                g.drawImage(Assets.ballSkull, b.x - 90, b.y - 90);
                 break;
         }
     }
