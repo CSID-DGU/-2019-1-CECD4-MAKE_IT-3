@@ -78,11 +78,6 @@ public class GameScreen extends Screen {
     private float _spawnInterval;
     private int _ballSpeed;
     private final double _spawnChance_normal = 0.26; // TODO dynamic
-    private final double _spawnChance_oneup = _spawnChance_normal + 0.003;
-    private final double _spawnChance_multiplier = _spawnChance_oneup + 0.001;
-    private final double _spawnChance_speeder = _spawnChance_multiplier + 0.003;
-    private final double _spawnChance_bomb = _spawnChance_speeder + 0.0005;
-    private final double _spawnChance_skull = _spawnChance_bomb + 0.014;
 
     // audio
     private Music _currentTrack;
@@ -171,7 +166,7 @@ public class GameScreen extends Screen {
         if (state == GameState.Running) {
             updateHitRunning(padNumber, deltaTime);
             //updateHitRunning(hitEvents, deltaTime);
-            //updateRunning(touchEvents, deltaTime);
+            updateRunning(touchEvents, deltaTime);
         }
         if (state == GameState.Paused)
             updatePaused(touchEvents);
@@ -295,9 +290,7 @@ public class GameScreen extends Screen {
                     _laneHitAlphaRight = MISS_FLASH_INITIAL_ALPHA;
                 }
             }
-            else {
-                receivedGame.setPadNumber("0");
-            }
+            receivedGame.setPadNumber("0");
     }
     private void handleHitEvents(List<HitEvent> hitEvents){
         int len = hitEvents.size();
@@ -329,11 +322,6 @@ public class GameScreen extends Screen {
                     // if no ball was hit
                     _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
                 }
-            }
-            else {
-                hitEvents.clear();
-                pause();
-                break;
             }
         }
     }
@@ -576,16 +564,6 @@ public class GameScreen extends Screen {
     private void spawnBall(List<Ball> balls, float randFloat, int ballX, int ballY) {
         if (randFloat < _spawnChance_normal) {
             balls.add(0, new Ball(ballX, ballY, Ball.BallType.Normal));
-        } else if (randFloat < _spawnChance_oneup) {
-            balls.add(0, new Ball(ballX, ballY, Ball.BallType.OneUp));
-        } else if (randFloat < _spawnChance_multiplier) {
-            balls.add(0, new Ball(ballX, ballY, Ball.BallType.Multiplier));
-        } else if (randFloat < _spawnChance_speeder) {
-            balls.add(0, new Ball(ballX, ballY, Ball.BallType.Speeder));
-        } else if (randFloat < _spawnChance_bomb) {
-            balls.add(0, new Ball(ballX, ballY, Ball.BallType.Bomb));
-        } else if (randFloat < _spawnChance_skull) {
-            balls.add(0, new Ball(ballX, ballY, Ball.BallType.Skull));
         }
     }
 
