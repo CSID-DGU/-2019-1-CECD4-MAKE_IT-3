@@ -107,9 +107,13 @@ public class GameScreen extends Screen {
     //from cj  Ready -> Running
     private GameState state = GameState.Ready;
 
+    private String padNum = "0";
+
     GameScreen(Game game, Difficulty difficulty) {
         super(game);
         receivedGame = game;
+
+        padNum = "0";
 
         _difficulty = difficulty;
         // init difficulty parameters
@@ -181,9 +185,13 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {/////////////////////////////////////////////////
+    private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {////////////////////////////////////////////////
+        //padNum = game.getPadNumber();
+        //Log.d("pp", "padNum" + game.getPadNumber());
         // 1. All touch input is handled here:
         handleTouchEvents(touchEvents);
+        //padNum
+        handleHitEvent();
 
         // 2. Check miscellaneous events like death:
         checkDeath();
@@ -196,6 +204,7 @@ public class GameScreen extends Screen {
     private void checkEnd() {
         if (_currentTrack.isStopped()) {
             _isEnding = true;
+            padNum = "0";
         }
     }
 
@@ -245,15 +254,13 @@ public class GameScreen extends Screen {
             editor.apply();
         }
     }
-
+    //padNum
 
     private void handleTouchEvents(List<TouchEvent> touchEvents) {///////////////////////////////////////////////////////
         int len = touchEvents.size();
 
         for (int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
-
-
             if (event.type == TouchEvent.TOUCH_DOWN) {
                 if (event.y > 1500) {
                     // ball hit area
@@ -301,7 +308,7 @@ public class GameScreen extends Screen {
         for (Ball b: _ballsLeft) {
             b.update((int) (_ballSpeed * deltatime));
         }
-    //변경부분
+        //변경부분
         for (Ball b: _ballsMiddleLeft) {
             b.update((int) (_ballSpeed * deltatime));
         }
@@ -362,6 +369,16 @@ public class GameScreen extends Screen {
                 endGame();
             }
         }
+
+        //padNumber
+        try{
+            if (padNum.equals("0") && game.getPadNumber() != null)
+                padNum = game.getPadNumber();
+        } catch(NullPointerException e){
+            padNum = "0";
+            game.setPadNumber("0");
+        }
+
     }
 
     // remove the balls from an iterator that have fallen through the hitbox
@@ -381,6 +398,7 @@ public class GameScreen extends Screen {
 
     // handles a TouchEvent on a certain lane
     private boolean hitLane(List<Ball> balls) {////////////////////////////////////////////////////////////////////////
+
         Iterator<Ball> iter = balls.iterator();
         Ball lowestBall = null;
         while (iter.hasNext()) {
@@ -389,8 +407,6 @@ public class GameScreen extends Screen {
                 lowestBall = b;
             }
         }
-
-
         if (lowestBall != null && lowestBall.y > HITBOX_CENTER - HITBOX_HEIGHT / 2 ) {
             balls.remove(lowestBall);
             onHit(lowestBall);
@@ -644,7 +660,7 @@ public class GameScreen extends Screen {
         String s = "Score: " + _score +
                 "   Multiplier: " + _multiplier * (_doubleMultiplierTicker > 0 ? 2 : 1) + "x" +
                 "   Lifes remaining: " + _lifes +
-                "   DrumPadNumber: "+ game.getPadNumber();
+                "   DrumPadNumber: "+ game.getPadNumber() + " " + padNum;
         g.drawString(s, 600, 80, _paintScore);
     }
 
