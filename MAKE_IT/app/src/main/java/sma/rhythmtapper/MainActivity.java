@@ -25,9 +25,6 @@ import java.util.StringTokenizer;
 
 import sma.rhythmtapper.models.PadInfo;
 
-//from cj
-//import com.mobileer.example.midiscope.R;
-
 public class MainActivity extends Activity implements ScopeLogger{
     //from cj
     public static Context testmContext;
@@ -57,7 +54,6 @@ public class MainActivity extends Activity implements ScopeLogger{
 
     private Button _startBtn;
     private Button _highscoreBtn;
-    private Button _aboutBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +65,6 @@ public class MainActivity extends Activity implements ScopeLogger{
 
         this._startBtn = (Button)this.findViewById(R.id.main_btn_start);
         this._highscoreBtn = (Button)this.findViewById(R.id.main_btn_highscore);
-        this._aboutBtn = (Button)this.findViewById(R.id.main_btn_about);
 
         this._startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,13 +78,6 @@ public class MainActivity extends Activity implements ScopeLogger{
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, HighscoreActivity.class);
-                MainActivity.this.startActivity(i);
-            }
-        });
-        this._aboutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, AboutActivity.class);
                 MainActivity.this.startActivity(i);
             }
         });
@@ -226,7 +214,7 @@ public class MainActivity extends Activity implements ScopeLogger{
         mScroller.fullScroll(View.FOCUS_DOWN);
     }
 
-    //*from cj
+    //from cj
     private void sendMessage() {
         Log.d("sender", "Broadcasting message");
         Intent intent = new Intent("custom-event-name");

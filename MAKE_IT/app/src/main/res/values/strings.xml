@@ -14,22 +14,22 @@
 
     <string name="highscore_txt_easy">Normal</string>
     <string name="highscore_txt_mid">Hard</string>
-    <string name="highscore_txt_hard">X-Treeeeeeeme</string>
+    <string name="highscore_txt_hard">extreme</string>
 
     <string name="about_ball_normal_title">Normal</string>
     <string name="about_ball_bomb_title">TNT</string>
     <string name="about_ball_multiplier_title">Multiplier</string>
     <string name="about_ball_speeder_title">Speedy</string>
     <string name="about_ball_oneup_title">One up</string>
-    <string name="about_ball_skull_title">Totenschädel</string>
+    <string name="about_ball_skull_title">skull</string>
 
-    <string name="about_us">RhythmTapper - a game brought to you from Peter Schmidbauer and Andreas Lobmaier with love. xoxo</string>
-    <string name="about_title">Balltypen</string>
-    <string name="about_ball_normal_content">Keine spezielle Fähigkeit, bringt Punkte</string>
-    <string name="about_ball_bomb_content">Zerstört alle kommenden Bälle für eine gewisse Zeit und zählt deren Punkte zum Punktestand.</string>
-    <string name="about_ball_multiplier_content">Verdoppelt den Multiplikator</string>
-    <string name="about_ball_speeder_content">Doppelt so schnell als normale Bälle</string>
-    <string name="about_ball_oneup_content">Erhöht die Anzahl der Leben um 1</string>
-    <string name="about_ball_skull_content">Verringert die Anzahl der Leben um 1</string>
+    <string name="about_us">RhythmTapper - a game brought with love</string>
+    <string name="about_title">Ball type</string>
+    <string name="about_ball_normal_content">No special ability, no scoring.</string>
+    <string name="about_ball_bomb_content">Destroy all incoming balls for a while and raise their scores to the point level.</string>
+    <string name="about_ball_multiplier_content">double the multiplier</string>
+    <string name="about_ball_speeder_content">Twice as fast as a normal ball.</string>
+    <string name="about_ball_oneup_content">Life increases by one.</string>
+    <string name="about_ball_skull_content">Decrease the number of lives to one</string>
 
 </resources>

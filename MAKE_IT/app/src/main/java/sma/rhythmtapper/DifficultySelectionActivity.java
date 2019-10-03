@@ -19,11 +19,11 @@ public class DifficultySelectionActivity extends Activity implements View.OnClic
     public String drumPadNumber;
 
     private final Difficulty _diffEasy =
-            new Difficulty(Difficulty.EASY_TAG, "Spyro_Year_of_the_Dragon_Acoustic_Fields_OC_ReMix.mp3", 115f/2, 8);
+            new Difficulty(Difficulty.EASY_TAG, "Spyro_Year_of_the_Dragon_Acoustic_Fields_OC_ReMix.mp3", 115f/2, 5);
     private final Difficulty _diffMid =
-            new Difficulty(Difficulty.MED_TAG, "super_meat_boy_power_of_the_meat.mp3", 128, 10);
+            new Difficulty(Difficulty.MED_TAG, "super_meat_boy_power_of_the_meat.mp3", 128, 8);
     private final Difficulty _diffHard =
-            new Difficulty(Difficulty.HARD_TAG, "Aquaria_Minibadass_OC_ReMix.mp3", 180, 15);
+            new Difficulty(Difficulty.HARD_TAG, "Aquaria_Minibadass_OC_ReMix.mp3", 180, 12);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

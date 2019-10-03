@@ -35,11 +35,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/main_btn_highscore" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/main_btn_about"
-            android:text="@string/main_btn_about" />
         <Spinner
             android:id="@+id/spinner_senders"
             android:layout_width="wrap_content"

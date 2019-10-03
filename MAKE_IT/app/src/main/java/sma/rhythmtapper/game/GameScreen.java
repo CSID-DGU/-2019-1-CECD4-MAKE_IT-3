@@ -1,5 +1,4 @@
 package sma.rhythmtapper.game;
-//from cj
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -17,18 +16,15 @@ import sma.rhythmtapper.framework.FileIO;
 import sma.rhythmtapper.framework.Game;
 import sma.rhythmtapper.framework.Graphics;
 import sma.rhythmtapper.framework.Input.TouchEvent;
-import sma.rhythmtapper.framework.HitInput.HitEvent;
 import sma.rhythmtapper.framework.Music;
 import sma.rhythmtapper.framework.Screen;
 import sma.rhythmtapper.game.models.Ball;
 import sma.rhythmtapper.models.Difficulty;
 
-//from cj
-
-
 public class GameScreen extends Screen {
 
     private static final String TAG = "GameScreenTag";
+
     enum GameState {
         Ready, Running, Paused, GameOver
     }
@@ -38,9 +34,6 @@ public class GameScreen extends Screen {
     public String padNumber = "0";
     String tempString;
 
-    public String getdrumPadNumber(){
-        return receivedGame.getPadNumber();
-    }
     // game and device
     private int _gameHeight;
     private int _gameWidth;
@@ -64,14 +57,12 @@ public class GameScreen extends Screen {
 
     // balls
     private List<Ball> _ballsLeft;
-    //private List<Ball> _ballsMiddle;
     private List<Ball> _ballsMiddleLeft;
     private List<Ball> _ballsMiddleRight;
     private List<Ball> _ballsRight;
 
     // lane miss indicators
     private int _laneHitAlphaLeft;
-//    private int _laneHitAlphaMiddle;
     private int _laneHitAlphaMiddleLeft;
     private int _laneHitAlphaMiddleRight;
     private int _laneHitAlphaRight;
@@ -100,10 +91,7 @@ public class GameScreen extends Screen {
     // miss zone right above the hitbox (it still counts as a miss)
     private static final int MISS_ZONE_HEIGHT = 150;
     private static final int MISS_FLASH_INITIAL_ALPHA = 240;
-    private static final int DOUBLE_MULTIPLIER_TIME = 600;
-    // explosion
-    private static final int EXPLOSION_TOP = 600;
-    private static final int EXPLOSION_TIME = 150;
+//    private static final int DOUBLE_MULTIPLIER_TIME = 600;
 
     //from cj  Ready -> Running
     private GameState state = GameState.Ready;
@@ -126,7 +114,6 @@ public class GameScreen extends Screen {
         _score = 0;
         _streak = 0;
         _ballsLeft = new ArrayList<>();
-//        _ballsMiddle = new ArrayList<>();
         _ballsMiddleLeft = new ArrayList<>();
         _ballsMiddleRight = new ArrayList<>();
         _ballsRight = new ArrayList<>();
@@ -137,8 +124,8 @@ public class GameScreen extends Screen {
         _explosionTicker = 0;
         _lifes = 10;
         _laneHitAlphaLeft = 0;
-        _laneHitAlphaMiddleLeft=0;
-        _laneHitAlphaMiddleRight=0;
+        _laneHitAlphaMiddleLeft = 0;
+        _laneHitAlphaMiddleRight = 0;
         _laneHitAlphaRight = 0;
         _currentTrack = Assets.musicTrack;
         _isEnding = false;
@@ -150,7 +137,6 @@ public class GameScreen extends Screen {
         _paintScore.setAntiAlias(true);
         _paintScore.setColor(Color.WHITE);
 
-
         _paintGameover = new Paint();
         _paintGameover.setTextSize(50);
         _paintGameover.setTextAlign(Paint.Align.CENTER);
@@ -159,10 +145,10 @@ public class GameScreen extends Screen {
     }
 
     @Override
-    public void update(float deltaTime) {///////////////////////////////////////////////////////////////////////
+    public void update(float deltaTime) {
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
         padNumber = receivedGame.getPadNumber();
-       // List<HitEvent> hitEvents = game.getHitInput().getHitEvents();
+        // List<HitEvent> hitEvents = game.getHitInput().getHitEvents();
 
         if (state == GameState.Ready)
             updateReady(touchEvents);
@@ -177,8 +163,7 @@ public class GameScreen extends Screen {
             updateGameOver(touchEvents);
     }
 
-
-    private void updateReady(List<TouchEvent> touchEvents) {////////////////////////////////////////////////////
+    private void updateReady(List<TouchEvent> touchEvents) {
         if (touchEvents.size() > 0) {
             state = GameState.Running;
             touchEvents.clear();
@@ -187,22 +172,14 @@ public class GameScreen extends Screen {
             _currentTrack.play();
         }
     }
-    private void updateHitRunning(String padNumber, float deltaTime){
+
+    private void updateHitRunning(String padNumber, float deltaTime) {
         handleHitEvents(padNumber);
         checkDeath();
         checkEnd();
         updateVariables(deltaTime);
     }
-    private void updateHitRunning(List<HitEvent> hitEvents, float deltaTime){
-        // 1. All touch input is handled here:
-        handleHitEvents(hitEvents);
-        // 2. Check miscellaneous events like death:
-        checkDeath();  //나중에 확인..
-        checkEnd();
 
-        // 3. Individual update() methods.
-        updateVariables(deltaTime);
-    }
     private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {/////////////////////////////////////////////////
         // 1. All touch input is handled here:
         handleTouchEvents(touchEvents);
@@ -221,18 +198,6 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void explosion(List<Ball> balls) {
-        Iterator<Ball> iter = balls.iterator();
-        while (iter.hasNext()) {
-            Ball b = iter.next();
-            if (b.y > EXPLOSION_TOP) {
-                iter.remove();
-                _score += 10 * _multiplier
-                        * (_doubleMultiplierTicker > 0 ? 2 : 1);
-            }
-        }
-    }
-
     private void checkDeath() {
         if (_lifes <= 0) {
             endGame();
@@ -246,88 +211,56 @@ public class GameScreen extends Screen {
         SharedPreferences prefs = fileIO.getSharedPref();
         int oldScore;
 
-        switch(_difficulty.getMode()) {
+        switch (_difficulty.getMode()) {
             case Difficulty.EASY_TAG:
-                oldScore = prefs.getInt(Difficulty.EASY_TAG,0);
+                oldScore = prefs.getInt(Difficulty.EASY_TAG, 0);
                 break;
             case Difficulty.MED_TAG:
-                oldScore = prefs.getInt(Difficulty.MED_TAG,0);
+                oldScore = prefs.getInt(Difficulty.MED_TAG, 0);
                 break;
             case Difficulty.HARD_TAG:
-                oldScore = prefs.getInt(Difficulty.HARD_TAG,0);
+                oldScore = prefs.getInt(Difficulty.HARD_TAG, 0);
                 break;
             default:
                 oldScore = 0;
                 break;
         }
 
-        if(_score > oldScore) {
+        if (_score > oldScore) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt(_difficulty.getMode(), _score);
             editor.apply();
         }
     }
 
-    private void handleHitEvents(String padNumber){
-            if (padNumber.equals("1")) {
-                if (!hitLane(_ballsLeft)) {
-                    // if no ball was hit
-                    _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
-                }
-            }
-            if (padNumber.equals("2")) {
-                if (!hitLane(_ballsMiddleLeft)) {
-                    // if no ball was hit
-                    _laneHitAlphaMiddleLeft = MISS_FLASH_INITIAL_ALPHA;
-                }
-            }
-            if (padNumber.equals("3")) {
-                if (!hitLane(_ballsMiddleRight)) {
-                    // if no ball was hit
-                    _laneHitAlphaMiddleRight = MISS_FLASH_INITIAL_ALPHA;
-                }
-            }
-            if (padNumber.equals("4")) {
-                if (!hitLane(_ballsRight)) {
-                    // if no ball was hit
-                    _laneHitAlphaRight = MISS_FLASH_INITIAL_ALPHA;
-                }
-            }
-            receivedGame.setPadNumber("0");
-    }
-    private void handleHitEvents(List<HitEvent> hitEvents){
-        int len = hitEvents.size();
-        String padNumberString;
-        for (int i = 0; i < len; i++) {
-            HitEvent event = hitEvents.get(i);
-            padNumberString = event.getPadNumber();
-            tempString = padNumberString;
-            if (padNumberString=="1"){
-                if (!hitLane(_ballsLeft)) {
-                    // if no ball was hit
-                    _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
-                }
-            }
-            if (padNumberString.equals("2")) {
-                if (!hitLane(_ballsMiddleLeft)) {
-                    // if no ball was hit
-                    _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
-                }
-            }
-            if (padNumberString.equals("3")) {
-                if (!hitLane(_ballsMiddleRight)) {
-                    // if no ball was hit
-                    _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
-                }
-            }
-            if (padNumberString.equals("4")) {
-                if (!hitLane(_ballsRight)) {
-                    // if no ball was hit
-                    _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
-                }
+    private void handleHitEvents(String padNumber) {
+        if (padNumber.equals("1")) {
+            if (!hitLane(_ballsLeft)) {
+                // if no ball was hit
+                _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
             }
         }
+        if (padNumber.equals("2")) {
+            if (!hitLane(_ballsMiddleLeft)) {
+                // if no ball was hit
+                _laneHitAlphaMiddleLeft = MISS_FLASH_INITIAL_ALPHA;
+            }
+        }
+        if (padNumber.equals("3")) {
+            if (!hitLane(_ballsMiddleRight)) {
+                // if no ball was hit
+                _laneHitAlphaMiddleRight = MISS_FLASH_INITIAL_ALPHA;
+            }
+        }
+        if (padNumber.equals("4")) {
+            if (!hitLane(_ballsRight)) {
+                // if no ball was hit
+                _laneHitAlphaRight = MISS_FLASH_INITIAL_ALPHA;
+            }
+        }
+        receivedGame.setPadNumber("0");
     }
+
     private void handleTouchEvents(List<TouchEvent> touchEvents) {///////////////////////////////////////////////////////
         int len = touchEvents.size();
 
@@ -341,26 +274,20 @@ public class GameScreen extends Screen {
                             // if no ball was hit
                             _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
                         }
-                    }
-                    else if (event.x < _gameWidth / 4 * 2) {
-                        if (!hitLane(_ballsMiddleLeft))
-                        {
+                    } else if (event.x < _gameWidth / 4 * 2) {
+                        if (!hitLane(_ballsMiddleLeft)) {
                             _laneHitAlphaMiddleLeft = MISS_FLASH_INITIAL_ALPHA;
                         }
-                    }
-                    else if (event.x < _gameWidth / 4 * 3) {
-                        if (!hitLane(_ballsMiddleRight))
-                        {
+                    } else if (event.x < _gameWidth / 4 * 3) {
+                        if (!hitLane(_ballsMiddleRight)) {
                             _laneHitAlphaMiddleRight = MISS_FLASH_INITIAL_ALPHA;
                         }
-                    }
-                    else {
+                    } else {
                         if (!hitLane(_ballsRight)) {
                             _laneHitAlphaRight = MISS_FLASH_INITIAL_ALPHA;
                         }
                     }
-                }
-                else {
+                } else {
                     // pause area
                     touchEvents.clear();
                     pause();
@@ -377,18 +304,18 @@ public class GameScreen extends Screen {
 
         // update ball position
 
-        for (Ball b: _ballsLeft) {
+        for (Ball b : _ballsLeft) {
             b.update((int) (_ballSpeed * deltatime));
         }
-    //변경부분
-        for (Ball b: _ballsMiddleLeft) {
+        //변경부분
+        for (Ball b : _ballsMiddleLeft) {
             b.update((int) (_ballSpeed * deltatime));
         }
-        for (Ball b: _ballsMiddleRight) {
+        for (Ball b : _ballsMiddleRight) {
             b.update((int) (_ballSpeed * deltatime));
         }
 
-        for (Ball b: _ballsRight) {
+        for (Ball b : _ballsRight) {
             b.update((int) (_ballSpeed * deltatime));
         }
 
@@ -422,13 +349,13 @@ public class GameScreen extends Screen {
         _laneHitAlphaRight -= Math.min(_laneHitAlphaRight, 10);
 
         // atom explosion ticker
-        if (_explosionTicker > 0) {
-            explosion(_ballsLeft);
-//            explosion(_ballsMiddle);
-            explosion(_ballsMiddleLeft);
-            explosion(_ballsMiddleRight);
-            explosion(_ballsRight);
-        }
+//        if (_explosionTicker > 0) {
+//            explosion(_ballsLeft);
+////            explosion(_ballsMiddle);
+//            explosion(_ballsMiddleLeft);
+//            explosion(_ballsMiddleRight);
+//            explosion(_ballsRight);
+//        }
 
         // update tickers
         _doubleMultiplierTicker -= Math.min(1, _doubleMultiplierTicker);
@@ -469,7 +396,7 @@ public class GameScreen extends Screen {
                 lowestBall = b;
             }
         }
-        if (lowestBall != null && lowestBall.y > HITBOX_CENTER - HITBOX_HEIGHT / 2 ) {
+        if (lowestBall != null && lowestBall.y > HITBOX_CENTER - HITBOX_HEIGHT / 2) {
             balls.remove(lowestBall);
             onHit(lowestBall);
             return lowestBall.type != Ball.BallType.Skull;
@@ -485,37 +412,16 @@ public class GameScreen extends Screen {
 
     // triggers when a lane gets tapped that has currently no ball in its hitbox
     private void onMiss(Ball b) {
-        if(b != null && b.type == Ball.BallType.Skull) {
-            return;
-        }
         _vibrator.vibrate(100);
         _streak = 0;
-        _score -= Math.min(_score, 50);
         _multiplier = 1;
-        --_lifes;
+        //--_lifes;
         updateMultipliers();
     }
 
     // triggers when a lane gets tapped that currently has a ball in its hitbox
     private void onHit(Ball b) {
         _streak++;
-        switch(b.type) {
-            case OneUp: {
-                ++_lifes;
-            } break;
-            case Multiplier: {
-                _doubleMultiplierTicker = DOUBLE_MULTIPLIER_TIME;
-            } break;
-            case Bomb: {
-                _explosionTicker = EXPLOSION_TIME;
-                Assets.soundExplosion.play(0.7f);
-            } break;
-            case Skull: {
-                onMiss(null); // hitting a skull counts as a miss
-                Assets.soundCreepyLaugh.play(1);
-                return;
-            }
-        }
 
         updateMultipliers();
         _score += 10 * _multiplier
@@ -526,20 +432,15 @@ public class GameScreen extends Screen {
     private void updateMultipliers() {
         if (_streak > 80) {
             _multiplier = 10;
-        }
-        else if (_streak > 40) {
+        } else if (_streak > 40) {
             _multiplier = 5;
-        }
-        else if (_streak > 30) {
+        } else if (_streak > 30) {
             _multiplier = 4;
-        }
-        else if (_streak > 20) {
+        } else if (_streak > 20) {
             _multiplier = 3;
-        }
-        else if (_streak > 10) {
+        } else if (_streak > 10) {
             _multiplier = 2;
-        }
-        else {
+        } else {
             _multiplier = 1;
         }
     }
@@ -556,7 +457,7 @@ public class GameScreen extends Screen {
         spawnBall(_ballsMiddleLeft, randFloat, ballX, ballY);
 
         randFloat = _rand.nextFloat();
-        ballX = _gameWidth-_gameWidth / 3;
+        ballX = _gameWidth - _gameWidth / 3;
         spawnBall(_ballsMiddleRight, randFloat, ballX, ballY);
 
         randFloat = _rand.nextFloat();
@@ -585,6 +486,7 @@ public class GameScreen extends Screen {
             }
         }
     }
+
     private void updateGameOver(List<TouchEvent> touchEvents) {////////////////////////////////////////////////////////////////////////
         if (!_currentTrack.isStopped()) {
             _currentTrack.stop();
@@ -615,39 +517,39 @@ public class GameScreen extends Screen {
         // Example:
         g.drawImage(Assets.background, 0, 0);
 
-        g.drawRect(0 , 0, _gameWidth / 4 + 1, _gameHeight, Color.argb(_laneHitAlphaLeft, 255, 0, 0));
-        g.drawRect(_gameWidth / 4    , 0, _gameWidth / 4 + 1, _gameHeight, Color.argb(_laneHitAlphaMiddleLeft, 255, 0, 0));
-        g.drawRect(_gameWidth / 4*2    , 0, _gameWidth / 4 + 1, _gameHeight, Color.argb(_laneHitAlphaMiddleRight, 255, 0, 0));
+        g.drawRect(0, 0, _gameWidth / 4 + 1, _gameHeight, Color.argb(_laneHitAlphaLeft, 255, 0, 0));
+        g.drawRect(_gameWidth / 4, 0, _gameWidth / 4 + 1, _gameHeight, Color.argb(_laneHitAlphaMiddleLeft, 255, 0, 0));
+        g.drawRect(_gameWidth / 4 * 2, 0, _gameWidth / 4 + 1, _gameHeight, Color.argb(_laneHitAlphaMiddleRight, 255, 0, 0));
         g.drawRect(_gameWidth / 4 * 3, 0, _gameWidth / 4 + 1, _gameHeight, Color.argb(_laneHitAlphaRight, 255, 0, 0));
 
-        for (Ball b: _ballsLeft) {
+        for (Ball b : _ballsLeft) {
             paintBall(g, b);
         }
 //        for (Ball b: _ballsMiddle) {
 //            paintBall(g, b);
 //        }
 
-        for (Ball b: _ballsMiddleLeft) {
+        for (Ball b : _ballsMiddleLeft) {
             paintBall(g, b);
         }
 
-        for (Ball b: _ballsMiddleRight) {
+        for (Ball b : _ballsMiddleRight) {
             paintBall(g, b);
         }
 
-        for (Ball b: _ballsRight) {
+        for (Ball b : _ballsRight) {
             paintBall(g, b);
         }
 
 
-        if (_explosionTicker > 0) {
-            if (_rand.nextDouble() > 0.05) {
-                g.drawImage(Assets.explosion, 0, 680);
-            } else {
-                g.drawImage(Assets.explosionBright, 0, 680);
-            }
-            g.drawARGB((int)((double)_explosionTicker/EXPLOSION_TIME * 255), 255, 255, 255);
-        }
+//        if (_explosionTicker > 0) {
+//            if (_rand.nextDouble() > 0.05) {
+//                g.drawImage(Assets.explosion, 0, 680);
+//            } else {
+//                g.drawImage(Assets.explosionBright, 0, 680);
+//            }
+//            g.drawARGB((int)((double)_explosionTicker/EXPLOSION_TIME * 255), 255, 255, 255);
+//        }
 
         // Secondly, draw the UI above the game elements.
         if (state == GameState.Ready)
@@ -661,22 +563,22 @@ public class GameScreen extends Screen {
     }
 
     private void paintBall(Graphics g, Ball b) {
-        switch(b.type) {
+        switch (b.type) {
             case Normal:
                 g.drawImage(Assets.ballNormal, b.x - 90, b.y - 90);
                 break;
         }
     }
 
-    private void nullify() {
-
-        // Set all variables to null. You will be recreating them in the
-        // constructor.
-        _paintScore = null;
-
-        // Call garbage collector to clean up memory.
-        System.gc();
-    }
+//    private void nullify() {
+//
+//        // Set all variables to null. You will be recreating them in the
+//        // constructor.
+//        _paintScore = null;
+//
+//        // Call garbage collector to clean up memory.
+//        System.gc();
+//    }
 
 
     private void drawReadyUI() {
@@ -701,7 +603,7 @@ public class GameScreen extends Screen {
         String s = "Score: " + _score +
                 "   Multiplier: " + _multiplier * (_doubleMultiplierTicker > 0 ? 2 : 1) + "x" +
                 "   Lifes remaining: " + _lifes +
-                "   DrumPadNumber: "+ padNumber + " " + padNumber;
+                "   DrumPadNumber: " + padNumber + " " + padNumber;
         g.drawString(s, 600, 80, _paintScore);
     }
 
@@ -738,7 +640,7 @@ public class GameScreen extends Screen {
 
     @Override
     public void dispose() {
-        if(_currentTrack.isPlaying()) {
+        if (_currentTrack.isPlaying()) {
             _currentTrack.stop();
         }
     }

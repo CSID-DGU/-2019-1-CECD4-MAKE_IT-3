@@ -20,7 +20,7 @@ public class Difficulty implements Serializable{
     public Difficulty(String _mode, String music, float bpm, int ballSpeed) {
         this._mode = _mode;
         this._music = music;
-        this._spawnInterval = 60 / bpm * 100 / 2;
+        this._spawnInterval = 60 / bpm * 100;
         this._ballSpeed = ballSpeed;
     }
 

@@ -28,9 +28,6 @@
             android:name=".HighscoreActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AboutActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".GameActivity"
             android:label="@string/title_activity_game"
             android:screenOrientation="portrait" />
