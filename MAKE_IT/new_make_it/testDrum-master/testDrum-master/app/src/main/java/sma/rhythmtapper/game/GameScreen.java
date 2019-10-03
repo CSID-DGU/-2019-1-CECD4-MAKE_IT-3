@@ -255,47 +255,6 @@ public class GameScreen extends Screen {
         }
     }
     //padNum
-    private void handleHitEvent(){
-        if(!padNum.equals("0")){
-            int number = Integer.parseInt(padNum);//acquire pad number
-            if(number == 1){//ballsLeft
-               /*if(!hitLane(_ballsLeft)){
-                   _laneHitAlphaLeft = MISS_FLASH_INITIAL_ALPHA;
-               }*/
-                padNum = "0";
-                game.setPadNumber("0");
-            }
-            else if (number == 2){//ballsmiddleleft
-                /*if(!hitLane(_ballsMiddleLeft)) {
-                    _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
-                }*/
-                padNum = "0";
-                game.setPadNumber("0");
-            }
-            else if (number == 3){//ballsmiddleright
-                /*if(!hitLane(_ballsMiddleRight)){
-                    _laneHitAlphaMiddle = MISS_FLASH_INITIAL_ALPHA;
-                }*/
-                padNum = "0";
-                game.setPadNumber("0");
-            }
-            else if (number == 4){//ballsright
-                /*if(!hitLane(_ballsRight)){
-                    _laneHitAlphaRight = MISS_FLASH_INITIAL_ALPHA;
-                }*/
-                padNum = "0";
-                game.setPadNumber("0");
-            }
-            else {
-                padNum = "0";
-                game.setPadNumber("0");
-            }
-        }
-        else{
-            padNum = "0";
-            game.setPadNumber("0");
-        }
-    }
 
     private void handleTouchEvents(List<TouchEvent> touchEvents) {///////////////////////////////////////////////////////
         int len = touchEvents.size();
