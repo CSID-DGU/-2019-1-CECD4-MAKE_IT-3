@@ -1,4 +1,4 @@
-package com.example.ai_drum.socket;
+package com.example.tcptest;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.ai_drum.socket", appContext.getPackageName());
+        assertEquals("com.example.tcptest", appContext.getPackageName());
     }
 }

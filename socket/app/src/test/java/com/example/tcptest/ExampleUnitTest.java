@@ -1,4 +1,4 @@
-package com.example.ai_drum.socket;
+package com.example.tcptest;
 
 import org.junit.Test;
 

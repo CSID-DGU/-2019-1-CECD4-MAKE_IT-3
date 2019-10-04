@@ -1,64 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
-
-    <LinearLayout
-
-    android:orientation="vertical"
-
-    android:layout_width="fill_parent"
-
-    android:layout_height="fill_parent" >
-        //메인 layout
-    <TextView android:id="@+id/TextView01"
-
-    android:layout_height="wrap_content"
-
-    android:layout_width="fill_parent"/>
-    // ..의미없음 띄어쓰기용도 지우기 귀찰ㄶ...
-    <EditText android:id="@+id/input"
-
-    android:layout_height="wrap_content"
-
-    android:layout_width="fill_parent"/>
-    //보낼 메시지를 적는곳
-    <Button android:id="@+id/button"
-
-    android:layout_width="fill_parent"
-
-    android:layout_height="wrap_content"
-
-    android:text="send!!"/>
-
-    //요 버튼을 누르면 전송되게 할거다.
-
-    <LinearLayout
-
-    android:orientation="horizontal"
-
-    android:layout_width="wrap_content"
-
-    android:layout_height="wrap_content" >
-        //자식 layout
     <TextView
-
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        android:layout_width="fill_parent"
-        android:text="server send : "/>
-
-    <TextView android:id="@+id/output"
-
-    android:layout_height="wrap_content"
-
-    android:layout_width="fill_parent"/>
-    //요기로 서버가 보낸 문자를 출력함.
-</LinearLayout>
-
-
-    </LinearLayout>
-
-    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
