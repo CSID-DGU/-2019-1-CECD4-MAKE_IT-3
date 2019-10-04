@@ -31,42 +31,50 @@ public class client extends Thread {
         }
     }
     public void run(){
+        System.out.println("run");
         try{
-            AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    try{
-                        SocketAddress serverAddress = new InetSocketAddress(serverIP, serverPort);
-                        //socket = new Socket(serverIP, serverPort);
-                        socket = new Socket();
-                        Log.d("tag", "socket created");
-                        socket.connect(serverAddress);
-
-                        PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-
-                        DataInputStream dis = new DataInputStream(new FileInputStream(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + "/Test"), "/test.txt")));
-                        DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-
-                        byte[] buf = new byte[1024];
-
-                        long totalReadBytes = 0;
-                        int readBytes;
-
-                        while((readBytes = dis.read(buf)) > 0){
-                            dos.write(buf, 0, readBytes);
-                            totalReadBytes += readBytes;
-                        }
-                        dos.close();
-                    } catch (IOException ie){
-                        ie.printStackTrace();
-                    }
-                    return null;
-                }
-            };
+            new FileSender().execute();
         } catch(Exception e){
             e.printStackTrace();
         }
     }
+
+    private class FileSender extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void ... voids) {
+            try{
+                System.out.println("address creation started");
+                SocketAddress serverAddress = new InetSocketAddress(serverIP, serverPort);
+                //socket = new Socket(serverIP, serverPort);
+                System.out.println("socket creation started");
+                socket = new Socket(serverIP, serverPort);
+                Log.d("tag", "socket created");
+                System.out.println("socket created");
+                socket.connect(serverAddress, 2000);
+
+                PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+
+                DataInputStream dis = new DataInputStream(new FileInputStream(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + "/Test"), "/test.txt")));
+                DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+
+                byte[] buf = new byte[1024];
+
+                long totalReadBytes = 0;
+                int readBytes;
+
+                while((readBytes = dis.read(buf)) > 0){
+                    dos.write(buf, 0, readBytes);
+                    totalReadBytes += readBytes;
+                }
+                dos.close();
+            } catch (IOException ie){
+                ie.printStackTrace();
+                Log.d("tag", "failed");
+                System.out.println("failed");
+            }
+
+            return null;
+        }
+    };
 }
 
 /*class FileSender extends Thread {
