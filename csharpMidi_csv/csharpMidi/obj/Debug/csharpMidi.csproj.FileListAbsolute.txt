@@ -1,0 +1,27 @@
+C:\Users\94and\Documents\Visual Studio 2015\Projects\csharpMidi\csharpMidi\bin\Debug\csharpMidi.exe.config
+C:\Users\94and\Documents\Visual Studio 2015\Projects\csharpMidi\csharpMidi\bin\Debug\csharpMidi.exe
+C:\Users\94and\Documents\Visual Studio 2015\Projects\csharpMidi\csharpMidi\bin\Debug\csharpMidi.pdb
+C:\Users\94and\Documents\Visual Studio 2015\Projects\csharpMidi\csharpMidi\obj\Debug\csharpMidi.csprojResolveAssemblyReference.cache
+C:\Users\94and\Documents\Visual Studio 2015\Projects\csharpMidi\csharpMidi\obj\Debug\csharpMidi.exe
+C:\Users\94and\Documents\Visual Studio 2015\Projects\csharpMidi\csharpMidi\obj\Debug\csharpMidi.pdb
+C:\학교\종합설계\csharpMidi_csv\csharpMidi\bin\Debug\csharpMidi.exe.config
+C:\학교\종합설계\csharpMidi_csv\csharpMidi\obj\Debug\csharpMidi.exe
+C:\학교\종합설계\csharpMidi_csv\csharpMidi\obj\Debug\csharpMidi.pdb
+C:\학교\종합설계\csharpMidi_csv\csharpMidi\bin\Debug\csharpMidi.exe
+C:\학교\종합설계\csharpMidi_csv\csharpMidi\bin\Debug\csharpMidi.pdb
+C:\학교\종합설계\csharpMidi_csv\csharpMidi\obj\Debug\csharpMidi.csprojResolveAssemblyReference.cache
+C:\학교\19-1\종합설계\csharpMidi_csv\csharpMidi\bin\Debug\csharpMidi.exe.config
+C:\학교\19-1\종합설계\csharpMidi_csv\csharpMidi\obj\Debug\csharpMidi.exe
+C:\학교\19-1\종합설계\csharpMidi_csv\csharpMidi\obj\Debug\csharpMidi.pdb
+C:\학교\19-1\종합설계\csharpMidi_csv\csharpMidi\bin\Debug\csharpMidi.exe
+C:\학교\19-1\종합설계\csharpMidi_csv\csharpMidi\bin\Debug\csharpMidi.pdb
+C:\학교\19-1\종합설계\csharpMidi_csv\csharpMidi\obj\Debug\csharpMidi.csprojResolveAssemblyReference.cache
+C:\학교\19-1\종합설계\csharpMidi_csv0\csharpMidi\bin\Debug\csharpMidi.exe.config
+C:\학교\19-1\종합설계\csharpMidi_csv0\csharpMidi\obj\Debug\csharpMidi.exe
+C:\학교\19-1\종합설계\csharpMidi_csv0\csharpMidi\obj\Debug\csharpMidi.pdb
+C:\학교\19-2\csharpMidi_csv\csharpMidi\bin\Debug\csharpMidi.exe.config
+C:\학교\19-2\csharpMidi_csv\csharpMidi\obj\Debug\csharpMidi.exe
+C:\학교\19-2\csharpMidi_csv\csharpMidi\obj\Debug\csharpMidi.pdb
+C:\학교\19-2\csharpMidi_csv\csharpMidi\bin\Debug\csharpMidi.exe
+C:\학교\19-2\csharpMidi_csv\csharpMidi\bin\Debug\csharpMidi.pdb
+C:\학교\19-2\csharpMidi_csv\csharpMidi\obj\Debug\csharpMidi.csprojResolveAssemblyReference.cache
