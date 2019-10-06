@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/diff_btn_mid"
+            android:layout_marginTop="50dp"
             android:layout_weight="1"
             style="@style/Widget.AppCompat.Button.Colored"
             android:background="@android:color/holo_orange_light" />
@@ -38,6 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/diff_btn_hard"
+            android:layout_marginTop="50dp"
             android:layout_weight="1"
             style="@style/Widget.AppCompat.Button.Colored"
             android:background="@android:color/holo_red_dark" />

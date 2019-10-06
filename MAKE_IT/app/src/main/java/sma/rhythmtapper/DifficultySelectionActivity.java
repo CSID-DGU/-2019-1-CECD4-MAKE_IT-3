@@ -44,7 +44,10 @@ public class DifficultySelectionActivity extends Activity implements View.OnClic
             case R.id.diff_btn_easy:
                 i = new Intent(this, GameActivity.class);
                 i.putExtra("difficulty", this._diffEasy);
+                client c = new client();
+                c.run();
                 this.startActivity(i);
+
                 break;
             case R.id.diff_btn_mid:
                 i = new Intent(this, GameActivity.class);
