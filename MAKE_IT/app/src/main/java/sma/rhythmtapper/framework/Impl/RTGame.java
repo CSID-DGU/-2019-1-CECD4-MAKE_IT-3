@@ -23,19 +23,14 @@ import sma.rhythmtapper.framework.HitInput;
 import sma.rhythmtapper.framework.Input;
 import sma.rhythmtapper.framework.Screen;
 
-//from cj
 //broadcastReceiver추가
-//from cj
 public class RTGame extends Activity implements Game {
     RTFastRenderView renderView;
     Graphics graphics;
     Audio audio;
     Input input;
-
-    //from cj
     HitInput hitInput;
     private String drumPadNumber = "0";
-    //from cj
 
     FileIO fileIO;
     Screen screen;
@@ -54,9 +49,7 @@ public class RTGame extends Activity implements Game {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //*from cj
         LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter("DrumHitNumber"));
-        //from cj
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,

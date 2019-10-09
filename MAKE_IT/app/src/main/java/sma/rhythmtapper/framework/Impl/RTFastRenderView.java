@@ -3,6 +3,7 @@ package sma.rhythmtapper.framework.Impl;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -38,16 +39,13 @@ public class RTFastRenderView extends SurfaceView implements Runnable {
 
             float deltaTime = (System.nanoTime() - startTime) / 10000000.000f;
             startTime = System.nanoTime();
-
+            Log.d("nano",String.valueOf(System.nanoTime()));
             if (deltaTime > 3.15){
                 deltaTime = (float) 3.15;
             }
 
-
             game.getCurrentScreen().update(deltaTime);
             game.getCurrentScreen().paint(deltaTime);
-
-
 
             Canvas canvas = holder.lockCanvas();
             canvas.getClipBounds(dstRect);

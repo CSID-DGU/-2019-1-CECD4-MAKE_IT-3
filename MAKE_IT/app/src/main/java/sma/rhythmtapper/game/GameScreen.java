@@ -94,8 +94,11 @@ public class GameScreen extends Screen {
     //from cj  Ready -> Running
     private GameState state = GameState.Ready;
 
+    public long starttime = 0;
     GameScreen(Game game, Difficulty difficulty) {
         super(game);
+
+        starttime = System.currentTimeMillis();
         receivedGame = game;
 
         _difficulty = difficulty;
@@ -147,6 +150,7 @@ public class GameScreen extends Screen {
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
         padNumber = receivedGame.getPadNumber();
 
+        Log.d("jh", String.valueOf(_currentTime));
         if (state == GameState.Ready){
             updateReady(touchEvents);
         }
@@ -338,6 +342,8 @@ public class GameScreen extends Screen {
         // spawn new balls
         if (!_isEnding && _currentTime % _spawnInterval <= deltatime) {
             spawnBalls();
+            Log.d("sibal", String.valueOf(deltatime));
+         //   Log.d("sibal2", String.valueOf(_currentTime));
         }
 
         // decrease miss flash intensities
@@ -440,24 +446,29 @@ public class GameScreen extends Screen {
         int ballX = _gameWidth / 4 / 2;
         spawnBall(_ballsLeft, randFloat, ballX, ballY);
 
-        randFloat = _rand.nextFloat();
-        ballX = _gameWidth / 3;
-        spawnBall(_ballsMiddleLeft, randFloat, ballX, ballY);
-
-        randFloat = _rand.nextFloat();
-        ballX = _gameWidth - _gameWidth / 3;
-        spawnBall(_ballsMiddleRight, randFloat, ballX, ballY);
-
-        randFloat = _rand.nextFloat();
-        ballX = _gameWidth - _gameWidth / 4 / 2;
-        spawnBall(_ballsRight, randFloat, ballX, ballY);
+//        randFloat = _rand.nextFloat();
+//        ballX = _gameWidth / 3;
+//        spawnBall(_ballsMiddleLeft, randFloat, ballX, ballY);
+//
+//        randFloat = _rand.nextFloat();
+//        ballX = _gameWidth - _gameWidth / 3;
+//        spawnBall(_ballsMiddleRight, randFloat, ballX, ballY);
+//
+//        randFloat = _rand.nextFloat();
+//        ballX = _gameWidth - _gameWidth / 4 / 2;
+//        spawnBall(_ballsRight, randFloat, ballX, ballY);
 
     }
 
     private void spawnBall(List<Ball> balls, float randFloat, int ballX, int ballY) {
-        if (randFloat < _spawnChance_normal) {
+        if(System.currentTimeMillis()-starttime>200) {
+            Log.d("time check", String.valueOf(System.currentTimeMillis()));
             balls.add(0, new Ball(ballX, ballY, Ball.BallType.Normal));
+            starttime=System.currentTimeMillis();
         }
+//        if (randFloat < _spawnChance_normal) {
+//            balls.add(0, new Ball(ballX, ballY, Ball.BallType.Normal));
+//        }
     }
 
     private void updatePaused(List<TouchEvent> touchEvents) {
