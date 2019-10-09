@@ -25,9 +25,6 @@ public class RTFileIO implements FileIO {
         this.assets = context.getAssets();
         this.externalStoragePath = Environment.getExternalStorageDirectory()
                 .getAbsolutePath() + File.separator;
-
-
-
     }
 
     @Override

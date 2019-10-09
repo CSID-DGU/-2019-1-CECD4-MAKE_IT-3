@@ -47,6 +47,7 @@ public class DifficultySelectionActivity extends Activity implements View.OnClic
                 i.putExtra("difficulty", this._diffEasy);
                 client c = new client();
                 c.run();
+
                 this.startActivity(i);
 
                 break;

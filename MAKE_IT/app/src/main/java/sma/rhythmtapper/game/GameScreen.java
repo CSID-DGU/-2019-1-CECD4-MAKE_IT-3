@@ -32,7 +32,6 @@ public class GameScreen extends Screen {
 
     public Game receivedGame;
     public String padNumber = "0";
-    String tempString;
 
     // game and device
     private int _gameHeight;
@@ -70,7 +69,7 @@ public class GameScreen extends Screen {
     // difficulty params
     private float _spawnInterval;
     private int _ballSpeed;
-    private final double _spawnChance_normal = 0.26; // TODO dynamic
+    //private final double _spawnChance_normal = 0.26; // TODO dynamic
 
     // audio
     private Music _currentTrack;
@@ -94,7 +93,7 @@ public class GameScreen extends Screen {
     //from cj  Ready -> Running
     private GameState state = GameState.Ready;
 
-    public long starttime = 0;
+    public long starttime;
     GameScreen(Game game, Difficulty difficulty) {
         super(game);
 
@@ -104,7 +103,8 @@ public class GameScreen extends Screen {
         _difficulty = difficulty;
         // init difficulty parameters
         _ballSpeed = _difficulty.getBallSpeed();
-        _spawnInterval = _difficulty.getSpawnInterval();
+//        _spawnInterval = _difficulty.getSpawnInterval();
+        _spawnInterval = _difficulty.getSpawnInterval()/2;
 
         // Initialize game objects
         _gameHeight = game.getGraphics().getHeight();
@@ -304,6 +304,11 @@ public class GameScreen extends Screen {
         // update timer
         _currentTime += deltatime;
 
+
+        //////////////////////////
+        //파일에서 값을 받아온 거 배열로 저장하고 그 배열 읽어오기
+        /////////////////////////
+
         // update ball position
 
         for (Ball b : _ballsLeft) {
@@ -339,11 +344,14 @@ public class GameScreen extends Screen {
             _laneHitAlphaRight = MISS_FLASH_INITIAL_ALPHA;
         }
 
+        int tmp_rudi =1;
         // spawn new balls
-        if (!_isEnding && _currentTime % _spawnInterval <= deltatime) {
-            spawnBalls();
-            Log.d("sibal", String.valueOf(deltatime));
-         //   Log.d("sibal2", String.valueOf(_currentTime));
+//        if (!_isEnding && _currentTime % _spawnInterval <= deltatime) {
+        //interval 필요 없어서 없앤 버전
+        if (!_isEnding) {
+            Log.d("asdf",String.valueOf(_currentTime % _spawnInterval));
+            Log.d("dddd",String.valueOf(tmp_rudi));
+            spawnBalls(tmp_rudi);
         }
 
         // decrease miss flash intensities
@@ -439,34 +447,45 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void spawnBalls() {
-        float randFloat = _rand.nextFloat();
+    private void spawnBalls(int rudi) {
+
+        int rudi_sec=0;
+
+        int randInt = _rand.nextInt(4);
+        //        float randFloat = _rand.nextFloat();
         final int ballY = BALL_INITIAL_Y;
+        //시간 매개변수로 바꾸기
+        if(rudi==1)
+            rudi_sec=300;
+        else if(rudi==2)
+            rudi_sec=150;
 
-        int ballX = _gameWidth / 4 / 2;
-        spawnBall(_ballsLeft, randFloat, ballX, ballY);
+        if(System.currentTimeMillis()-starttime>rudi_sec) {
+            Log.d("time check", String.valueOf(System.currentTimeMillis()));
+            Log.d("randval", String.valueOf(randInt));
+            if (randInt == 0) {
 
-//        randFloat = _rand.nextFloat();
-//        ballX = _gameWidth / 3;
-//        spawnBall(_ballsMiddleLeft, randFloat, ballX, ballY);
-//
-//        randFloat = _rand.nextFloat();
-//        ballX = _gameWidth - _gameWidth / 3;
-//        spawnBall(_ballsMiddleRight, randFloat, ballX, ballY);
-//
-//        randFloat = _rand.nextFloat();
-//        ballX = _gameWidth - _gameWidth / 4 / 2;
-//        spawnBall(_ballsRight, randFloat, ballX, ballY);
-
+                int ballX = _gameWidth / 4 / 2;
+                spawnBall(_ballsLeft, randInt, ballX, ballY);
+            } else if (randInt == 1) {
+                int ballX = _gameWidth / 3;
+                spawnBall(_ballsMiddleLeft, randInt, ballX, ballY);
+            } else if (randInt == 2) {
+                int ballX = _gameWidth - _gameWidth / 3;
+                spawnBall(_ballsMiddleRight, randInt, ballX, ballY);
+            } else {
+                int ballX = _gameWidth - _gameWidth / 4 / 2;
+                spawnBall(_ballsRight, randInt, ballX, ballY);
+            }
+        }
+        //randInt = _rand.nextInt();
     }
 
     private void spawnBall(List<Ball> balls, float randFloat, int ballX, int ballY) {
-        if(System.currentTimeMillis()-starttime>200) {
-            Log.d("time check", String.valueOf(System.currentTimeMillis()));
+
             balls.add(0, new Ball(ballX, ballY, Ball.BallType.Normal));
             starttime=System.currentTimeMillis();
-        }
-//        if (randFloat < _spawnChance_normal) {
+        //        if (randFloat < _spawnChance_normal) {
 //            balls.add(0, new Ball(ballX, ballY, Ball.BallType.Normal));
 //        }
     }
