@@ -392,16 +392,17 @@ public class GameScreen extends Screen {
                 }
                 break;
             case 2:
-                if (cnt >= 4){
+                if (note_cnt >= 4){
                     currentRudi++;
                     note_cnt = 0;
                 }
+                break;
         }
 
         Log.d("qwerqwer",String.valueOf(currentRudi));
         Log.d("qwerqwerqwer",String.valueOf(rudiArray.length));
-        if (currentRudi >= rudiArray.length-1)
-            currentRudi = 0;
+        if (currentRudi > rudiArray.length-1)
+            currentRudi = 1;
     }
 
     // remove the balls from an iterator that have fallen through the hitbox
@@ -492,7 +493,11 @@ public class GameScreen extends Screen {
         int randInt = _rand.nextInt(4);
         final int ballY = BALL_INITIAL_Y;
 
-        if(System.currentTimeMillis()-starttime>rudi_sec[currentRudi][note]) {
+
+        if(System.currentTimeMillis()-starttime>rudi_sec[currentRudi][note]) {//여기가 문제임
+            Log.d("qwer1", String.valueOf(rudi_sec[currentRudi][note_cnt]));
+            Log.d("qwer2", String.valueOf(System.currentTimeMillis() - starttime));
+
             if (randInt == 0) {
                 int ballX = _gameWidth / 4 / 2;
                 spawnBall(_ballsLeft, randInt, ballX, ballY);
