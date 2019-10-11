@@ -398,7 +398,9 @@ public class GameScreen extends Screen {
                 }
         }
 
-        if (currentRudi >= rudiArray.length)
+        Log.d("qwerqwer",String.valueOf(currentRudi));
+        Log.d("qwerqwerqwer",String.valueOf(rudiArray.length));
+        if (currentRudi >= rudiArray.length-1)
             currentRudi = 0;
     }
 
@@ -506,8 +508,8 @@ public class GameScreen extends Screen {
             }
             starttime = System.currentTimeMillis();
         }
-        note++;
-        //randInt = _rand.nextInt();
+        note_cnt++;
+        Log.d("qwer", String.valueOf(note_cnt));
     }
 
     private void spawnBall(List<Ball> balls, float randFloat, int ballX, int ballY) {
