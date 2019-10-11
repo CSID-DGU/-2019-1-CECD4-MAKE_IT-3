@@ -93,11 +93,11 @@ public class GameScreen extends Screen {
     //from cj  Ready -> Running
     private GameState state = GameState.Ready;
 
-    private int[] rudi_sec = { 300, 150};
+    private int[][] rudi_sec = {{600, 600, 600, 600, 600, 600, 600, 600 },{800,800,800,2400}};
     private int[] rudiArray;//파일 받아오고 루디먼트 번호 저장
     private int currentRudi;
     private int cnt = 0;
-
+    private int note_cnt=0;
     public long starttime;
     GameScreen(Game game, Difficulty difficulty) {
         super(game);
@@ -115,7 +115,7 @@ public class GameScreen extends Screen {
         // init difficulty parameters
         _ballSpeed = _difficulty.getBallSpeed();
 //        _spawnInterval = _difficulty.getSpawnInterval();
-        _spawnInterval = _difficulty.getSpawnInterval()/2;
+//        _spawnInterval = _difficulty.getSpawnInterval()/2;
 
         // Initialize game objects
         _gameHeight = game.getGraphics().getHeight();
@@ -354,16 +354,14 @@ public class GameScreen extends Screen {
         if (removeMissed(_ballsRight.iterator())) {
             _laneHitAlphaRight = MISS_FLASH_INITIAL_ALPHA;
         }
-
-        int tmp_rudi =1;
         // spawn new balls
 //        if (!_isEnding && _currentTime % _spawnInterval <= deltatime) {
         //interval 필요 없어서 없앤 버전
         checkRudiState();
+
         if (!_isEnding) {
-            Log.d("asdf",String.valueOf(_currentTime % _spawnInterval));
-            Log.d("dddd",String.valueOf(tmp_rudi));
-            spawnBalls(rudiArray[currentRudi]);
+
+            spawnBalls(note_cnt);
         }
 
         // decrease miss flash intensities
@@ -388,15 +386,15 @@ public class GameScreen extends Screen {
     private void checkRudiState(){
         switch (currentRudi+1){
             case 1:
-                if (cnt >= 16) {
+                if (note_cnt >= 8) {
                     currentRudi++;
-                    cnt = 0;
+                    note_cnt = 0;
                 }
                 break;
             case 2:
-                if (cnt >= 8){
+                if (cnt >= 4){
                     currentRudi++;
-                    cnt = 0;
+                    note_cnt = 0;
                 }
         }
 
@@ -477,7 +475,7 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void spawnBalls(int rudi) {
+    private void spawnBalls(int note) {
 
         /*int rudi_sec=0;
 
@@ -492,10 +490,7 @@ public class GameScreen extends Screen {
         int randInt = _rand.nextInt(4);
         final int ballY = BALL_INITIAL_Y;
 
-
-        if(System.currentTimeMillis()-starttime>rudi_sec[currentRudi]) {
-            Log.d("time check", String.valueOf(System.currentTimeMillis()));
-            Log.d("randval", String.valueOf(randInt));
+        if(System.currentTimeMillis()-starttime>rudi_sec[currentRudi][note]) {
             if (randInt == 0) {
                 int ballX = _gameWidth / 4 / 2;
                 spawnBall(_ballsLeft, randInt, ballX, ballY);
@@ -511,6 +506,7 @@ public class GameScreen extends Screen {
             }
             starttime = System.currentTimeMillis();
         }
+        note++;
         //randInt = _rand.nextInt();
     }
 
