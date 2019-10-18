@@ -85,9 +85,9 @@ public class GameScreen extends Screen {
     private static final int BALL_INITIAL_Y = -50;
     // hitbox is the y-range within a ball can be hit by a press in its lane
     private static final int HITBOX_CENTER = 1760;
-    private static final int HITBOX_HEIGHT = 280;
+    private static final int HITBOX_HEIGHT = 200;
     // if no ball is in the hitbox when pressed, remove the lowest ball in the
-    // miss zone right above the hitbox (it still counts as a miss)
+    // miss zone right above the hitbox (it still counts as a missㄷ)
     private static final int MISS_ZONE_HEIGHT = 150;
     private static final int MISS_FLASH_INITIAL_ALPHA = 240;
     //from cj  Ready -> Running
@@ -399,10 +399,10 @@ public class GameScreen extends Screen {
                 break;
         }
 
-        Log.d("qwerqwer",String.valueOf(currentRudi));
-        Log.d("qwerqwerqwer",String.valueOf(rudiArray.length));
+        //Log.d("qwerqwer",String.valueOf(currentRudi));
+        //Log.d("qwerqwerqwer",String.valueOf(rudiArray.length));
         if (currentRudi > rudiArray.length-1)
-            currentRudi = 1;
+            currentRudi = 0;
     }
 
     // remove the balls from an iterator that have fallen through the hitbox
@@ -496,7 +496,8 @@ public class GameScreen extends Screen {
 
         if(System.currentTimeMillis()-starttime>rudi_sec[currentRudi][note]) {//여기가 문제임
             Log.d("qwer1", String.valueOf(rudi_sec[currentRudi][note_cnt]));
-            Log.d("qwer2", String.valueOf(System.currentTimeMillis() - starttime));
+            Log.d("qwer11", String.valueOf(note_cnt));
+            //Log.d("qwer2", String.valueOf(System.currentTimeMillis() - starttime));
 
             if (randInt == 0) {
                 int ballX = _gameWidth / 4 / 2;
@@ -512,9 +513,10 @@ public class GameScreen extends Screen {
                 spawnBall(_ballsRight, randInt, ballX, ballY);
             }
             starttime = System.currentTimeMillis();
+            note_cnt++;
         }
-        note_cnt++;
-        Log.d("qwer", String.valueOf(note_cnt));
+
+        //Log.d("qwer", String.valueOf(note_cnt));
     }
 
     private void spawnBall(List<Ball> balls, float randFloat, int ballX, int ballY) {
