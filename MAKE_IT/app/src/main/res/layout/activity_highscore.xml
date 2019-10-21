@@ -1,115 +1,283 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_highscore"
+    android:id="@+id/dlHomeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
+    android:background="@color/drawer_background_color"
     tools:context="sma.rhythmtapper.HighscoreActivity">
 
-
-    <TextView
-        android:id="@+id/testTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TableLayout
-        android:stretchColumns="0,1,2"
+    <RelativeLayout
+        android:id="@+id/rlContent"
+        android:background="@drawable/base_background_gradient"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TableRow
+
+
+        <ImageView
+            android:layout_width="320dp"
+            android:layout_height="265dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:alpha="0.43"
+            android:src="@mipmap/backgraound_copy" />
+
+        <ImageView
+            android:id="@+id/ivTopCircle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="20dp">
+            android:layout_height="wrap_content"
+            android:alpha="0.4"
+            android:scaleX="1.2"
+            android:background="@drawable/home_top_circle" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <TextView
-                android:text="@string/highscore_mode"
+                android:id="@+id/testTextView"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView8"
-                android:textSize="18sp"
-                android:textStyle="normal|bold" />
+                android:text="High Score" />
 
-            <TextView
-                android:text="@string/highscore_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView7"
-                android:textSize="18sp"
-                android:textStyle="normal|bold" />
+            <TableLayout
+                android:stretchColumns="0,1,2"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginBottom="20dp">
 
-        <TableRow
+                    <TextView
+                        android:text="@string/highscore_mode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView8"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:text="@string/highscore_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView7"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:text="@string/highscore_txt_easy"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/highscore_txt_mode_easy" />
+
+                    <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/highscore_txt_score_easy"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:text="@string/highscore_txt_mid"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/highscore_txt_mode_medium" />
+
+                    <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/highscore_txt_score_medium"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:text="@string/highscore_txt_hard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:id="@+id/highscore_txt_mode_hard" />
+
+                    <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/highscore_txt_score_hard"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+
+                </TableRow>
+            </TableLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llHomeMenu"
+            android:layout_width="80dp"
+            android:layout_height="80dp">
+
+            <ImageView
+                android:id="@+id/ivDrawerArrow"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="25dp"
+                android:background="@drawable/drawer_selector" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlAlarmTime"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"/>
+
+        <ImageView
+            android:layout_width="104dp"
+            android:layout_height="104dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:scaleX="1.2"
+            android:alpha="0.4"
+            android:background="@drawable/home_bottom_circle"/>
+
+        <ImageView
+            android:layout_width="104dp"
+            android:layout_height="104dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:scaleX="1.2"
+            android:alpha="0.4"
+            android:background="@drawable/home_bottom_circle_right"/>
+
+
+        <ImageView
+            android:layout_width="238.5dp"
+            android:layout_height="56.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="43.5dp"
+            android:src="@drawable/back_star"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llDrawer"
+        android:layout_width="190dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/drawer_background_color"
+        android:orientation="vertical"
+        android:paddingLeft="39dp">
+
+        <LinearLayout
+            android:id="@+id/llStore"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="71dp">
 
-            <TextView
-                android:text="@string/highscore_txt_easy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/highscore_txt_mode_easy" />
+        </LinearLayout>
 
-            <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/highscore_txt_score_easy"
-                android:textColor="@android:color/black"
-                android:textStyle="normal|bold"
-                android:textSize="16sp" />
-
-        </TableRow>
-
-        <TableRow
+        <LinearLayout
+            android:id="@+id/llAlarm"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="35dp">
+        </LinearLayout>
 
-            <TextView
-                android:text="@string/highscore_txt_mid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/highscore_txt_mode_medium" />
-
-            <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/highscore_txt_score_medium"
-                android:textSize="16sp"
-                android:textStyle="normal|bold"
-                android:textColor="@android:color/black" />
-
-        </TableRow>
-
-        <TableRow
+        <LinearLayout
+            android:id="@+id/llLullaby"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="35dp">
+        </LinearLayout>
 
-            <TextView
-                android:text="@string/highscore_txt_hard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/highscore_txt_mode_hard" />
+        <LinearLayout
+            android:id="@+id/llSleepPattern"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="35dp">
+        </LinearLayout>
 
-            <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/highscore_txt_score_hard"
-                android:textSize="16sp"
-                android:textStyle="normal|bold"
-                android:textColor="@android:color/black" />
+        <LinearLayout
+            android:id="@+id/llMyAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="35dp">
 
-        </TableRow>
-    </TableLayout>
-</LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDiffuserMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="35dp">
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>
+
+
+
+
+
+
+

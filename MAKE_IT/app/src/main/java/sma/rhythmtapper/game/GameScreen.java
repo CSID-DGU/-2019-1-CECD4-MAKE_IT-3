@@ -93,7 +93,13 @@ public class GameScreen extends Screen {
     //from cj  Ready -> Running
     private GameState state = GameState.Ready;
 
-    private int[][] rudi_sec = {{600, 600, 600, 600, 600, 600, 600, 600 },{800,800,800,2400}};
+    private int[][] rudi_sec = {
+            {300, 300, 300, 300, 300, 300, 300, 300 },
+            {800,800,800,2400},
+            {400, 400, 400, 400, 400, 400, 2400},
+            {}
+
+    };
     private int[] rudiArray;//파일 받아오고 루디먼트 번호 저장
     private int currentRudi;
     private int cnt = 0;
@@ -521,9 +527,9 @@ public class GameScreen extends Screen {
 
     private void spawnBall(List<Ball> balls, float randFloat, int ballX, int ballY) {
 
-            balls.add(0, new Ball(ballX, ballY, Ball.BallType.Normal));
-            starttime=System.currentTimeMillis();
-            cnt++;
+        balls.add(0, new Ball(ballX, ballY, Ball.BallType.Normal));
+        starttime=System.currentTimeMillis();
+        cnt++;
         //        if (randFloat < _spawnChance_normal) {
 //            balls.add(0, new Ball(ballX, ballY, Ball.BallType.Normal));
 //        }
