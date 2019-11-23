@@ -85,7 +85,7 @@ public class GameScreen extends Screen {
     private static final int BALL_INITIAL_Y = -50;
     // hitbox is the y-range within a ball can be hit by a press in its lane
     private static final int HITBOX_CENTER = 1760;
-    private static final int HITBOX_HEIGHT = 800;
+    private static final int HITBOX_HEIGHT = 400;
     // if no ball is in the hitbox when pressed, remove the lowest ball in the
     // miss zone right above the hitbox (it still counts as a miss)
     private static final int MISS_ZONE_HEIGHT = 200;
