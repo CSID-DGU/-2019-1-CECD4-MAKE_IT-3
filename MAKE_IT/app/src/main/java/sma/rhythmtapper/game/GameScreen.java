@@ -85,19 +85,35 @@ public class GameScreen extends Screen {
     private static final int BALL_INITIAL_Y = -50;
     // hitbox is the y-range within a ball can be hit by a press in its lane
     private static final int HITBOX_CENTER = 1760;
-    private static final int HITBOX_HEIGHT = 200;
+    private static final int HITBOX_HEIGHT = 800;
     // if no ball is in the hitbox when pressed, remove the lowest ball in the
-    // miss zone right above the hitbox (it still counts as a missㄷ)
-    private static final int MISS_ZONE_HEIGHT = 150;
+    // miss zone right above the hitbox (it still counts as a miss)
+    private static final int MISS_ZONE_HEIGHT = 200;
     private static final int MISS_FLASH_INITIAL_ALPHA = 240;
     //from cj  Ready -> Running
     private GameState state = GameState.Ready;
 
     private int[][] rudi_sec = {
-            {300, 300, 300, 300, 300, 300, 300, 300 },
-            {800,800,800,2400},
-            {400, 400, 400, 400, 400, 400, 2400},
-            {}
+            {600, 600, 600, 600, 600, 600, 600, 600 },
+            {400,400,400,1200, 400,400,400, 1200},
+            {400, 400, 400, 400, 400, 400, 1200},
+            {300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300},
+            {400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400},
+            {800, 0, 800, 0, 800, 0, 800, 0, 800, 0, 800, 0},
+            {480, 480, 480, 480, 480, 480, 480, 480, 480, 480},
+            {400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400},
+            {340, 340, 340, 340, 340, 340, 360, 340, 340, 340, 340, 340, 340, 360},
+            {450, 450, 450, 450, 450, 450, 450, 450, 1200},
+            {480, 480, 480, 480, 480, 480, 480, 480, 480, 480},
+            {430, 430, 430, 430, 430, 430, 430, 430, 430, 430, 500},
+            {360, 360, 360, 360, 360, 360, 360, 360, 360, 360, 360, 360, 480},
+            {320, 320, 320, 320, 320, 320, 320, 320, 320, 320, 320, 320, 320, 320, 320},
+            {280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 280, 320},
+            {300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300},
+            {400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400},
+            {300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300},
+            {400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400},
+            {1100, 100, 1100, 100, 1100, 100, 1100, 100}
 
     };
     private int[] rudiArray;//파일 받아오고 루디먼트 번호 저장
@@ -111,9 +127,18 @@ public class GameScreen extends Screen {
         starttime = System.currentTimeMillis();
         receivedGame = game;
 
-        rudiArray = new int[2];
+        rudiArray = new int[11];
         rudiArray[0] = 1;
         rudiArray[1] = 2;
+        rudiArray[2] = 3;
+        rudiArray[3] = 4;
+        rudiArray[4] = 5;
+        rudiArray[5] = 6;
+        rudiArray[6] = 7;
+        rudiArray[7] = 8;
+        rudiArray[8] = 9;
+        rudiArray[9] = 10;
+        rudiArray[10] =11;
 
         currentRudi = 0;
 
@@ -140,7 +165,7 @@ public class GameScreen extends Screen {
         _endTicker = END_TIME / _difficulty.getBallSpeed();
         _currentTime = 0f;
         _explosionTicker = 0;
-        _lifes = 10;
+        _lifes = 20;
         _laneHitAlphaLeft = 0;
         _laneHitAlphaMiddleLeft = 0;
         _laneHitAlphaMiddleRight = 0;
@@ -166,6 +191,10 @@ public class GameScreen extends Screen {
     public void update(float deltaTime) {
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
         padNumber = receivedGame.getPadNumber();
+        Log.d("num", padNumber);
+
+
+
 
         Log.d("jh", String.valueOf(_currentTime));
         if (state == GameState.Ready){
@@ -398,7 +427,115 @@ public class GameScreen extends Screen {
                 }
                 break;
             case 2:
-                if (note_cnt >= 4){
+                if (note_cnt >= 8){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 3:
+                if (note_cnt >= 7){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 4:
+                if (note_cnt >= 16){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 5:
+                if (note_cnt >= 12){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 6:
+                if (note_cnt >= 12){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 7:
+                if (note_cnt >= 10){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 8:
+                if (note_cnt >= 12){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 9:
+                if (note_cnt >= 14){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 10:
+                if (note_cnt >= 9){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 11:
+                if (note_cnt >= 10){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 12:
+                if (note_cnt >= 11){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 13:
+                if (note_cnt >= 13){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 14:
+                if (note_cnt >= 15){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 15:
+                if (note_cnt >= 17){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 16:
+                if (note_cnt >= 16){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 17:
+                if (note_cnt >= 12){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 18:
+                if (note_cnt >= 16){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 19:
+                if (note_cnt >= 12){
+                    currentRudi++;
+                    note_cnt = 0;
+                }
+                break;
+            case 20:
+                if (note_cnt >= 8){
                     currentRudi++;
                     note_cnt = 0;
                 }
@@ -454,7 +591,7 @@ public class GameScreen extends Screen {
         _vibrator.vibrate(100);
         _streak = 0;
         _multiplier = 1;
-        //--_lifes;// for the test
+        --_lifes;// for the test
         updateMultipliers();
     }
 
