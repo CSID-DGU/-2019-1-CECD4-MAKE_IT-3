@@ -5,9 +5,9 @@
     <string name="main_btn_difficulty">Highscore</string>
     <string name="main_btn_about">About</string>
     <string name="title_activity_game">GameActivity</string>
-    <string name="diff_radio_easy">Normal</string>
-    <string name="diff_radio_mid">Hard</string>
-    <string name="diff_radio_hard">extreme</string>
+    <string name="diff_radio_easy">Dancing queen</string>
+    <string name="diff_radio_mid">super meat boy power of the meat</string>
+    <string name="diff_radio_hard">Aquaria Minibadass OC ReMix</string>
 
     <string name="highscore_mode">Mode</string>
     <string name="highscore_score">Difficult</string>
